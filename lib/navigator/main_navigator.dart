@@ -9,7 +9,6 @@ import 'package:beer_app/screen/license/license_screen.dart';
 import 'package:beer_app/screen/login/login_screen.dart';
 import 'package:beer_app/screen/splash/splash_screen.dart';
 import 'package:beer_app/screen/theme_mode/theme_mode_selector.dart';
-import 'package:beer_app/screen/todo/todo_add/todo_add_screen.dart';
 import 'package:beer_app/util/env/flavor_config.dart';
 import 'package:beer_app/util/snackbar/error_util.dart';
 import 'package:beer_app/util/snackbar/snackbar_util.dart';
@@ -20,6 +19,8 @@ import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:injectable/injectable.dart';
+
+import '../screen/beer/beer_add/beer_add_screen.dart';
 
 @lazySingleton
 class MainNavigator {
@@ -41,10 +42,6 @@ class MainNavigator {
     BasePage<void>(
       name: HomeScreen.routeName,
       page: () => const FlavorBanner(child: HomeScreen()),
-    ),
-    BasePage<void>(
-      name: TodoAddScreen.routeName,
-      page: () => const FlavorBanner(child: TodoAddScreen()),
     ),
     BasePage<void>(
       name: LicenseScreen.routeName,
@@ -75,9 +72,9 @@ class MainNavigator {
 
   void goToHome() async => Get.offNamed<void>(HomeScreen.routeName);
 
-  void goToBeerDetail(BeerWithBrewery beerWithBrewery) async => Get.offNamed<void>(BeerDetailScreen.routeName, arguments: beerWithBrewery);
+  void goToBeerDetail(BeerWithBrewery beerWithBrewery) async => Get.toNamed<void>(BeerDetailScreen.routeName, arguments: beerWithBrewery);
 
-  Future<void> goToAddTodo() async => Get.toNamed<void>(TodoAddScreen.routeName);
+  Future<void> goToAddBeer() async => Get.toNamed<void>(BeerAddScreen.routeName);
 
   Future<void> goToDebugPlatformSelector() async => Get.toNamed<void>(DebugPlatformSelectorScreen.routeName);
 

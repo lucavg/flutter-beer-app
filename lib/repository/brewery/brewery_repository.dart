@@ -30,12 +30,10 @@ class _BreweryRepository implements BreweryRepository {
   }
 
   @override
-  // TODO: implement getAllBeers
   Stream<List<Brewery>> getAllBreweries() => _breweryDao.getAllBreweriesStream();
 
   @override
   Future<void> saveBrewery(String id, String name) async {
-    // TODO: implement saveBeer
     await _breweryDao.createBrewery(id, name);
   }
 }

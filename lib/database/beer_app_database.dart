@@ -1,5 +1,4 @@
 import 'package:beer_app/model/database/beer/db_beer_table.dart';
-import 'package:beer_app/model/database/todo/db_todo_table.dart';
 import 'package:beer_app/model/database/beer/db_brewery_table.dart';
 import 'package:drift/drift.dart';
 
@@ -7,7 +6,6 @@ import 'package:drift/drift.dart';
 part 'beer_app_database.g.dart';
 
 @DriftDatabase(tables: [
-  DbTodoTable,
   DbBeerTable,
   DbBreweryTable
 ])

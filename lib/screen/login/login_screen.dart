@@ -23,13 +23,16 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(ThemeDimens.padding16),
                     child: Column(
                       children: [
-                        Image.network("https://freesvg.org/img/1515941353.png", height: 250,),
-                        //TODO: Add email field
+                        //TODO: Add loading state, prevent users from pressing login while loading
+                        Image.network(
+                          "https://freesvg.org/img/1515941353.png",
+                          height: 250,
+                        ),
                         BeerAppInputField(
                           hint: 'Email',
                           onChanged: (value) => viewModel.onEmailUpdated(value),
                         ),
-                        //TODO: Add password field
+                        // TODO: Password field must be censored
                         BeerAppInputField(
                           hint: 'Password',
                           onChanged: (value) => viewModel.onPasswordUpdated(value),

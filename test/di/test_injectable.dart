@@ -1,5 +1,4 @@
 import 'package:beer_app/database/beer_app_database.dart';
-import 'package:beer_app/database/todo/todo_dao_storage.dart';
 import 'package:beer_app/di/environments.dart';
 import 'package:beer_app/di/injectable.config.dart';
 import 'package:beer_app/di/injectable.dart';
@@ -11,7 +10,6 @@ import 'package:beer_app/repository/refresh/refresh_repository.dart';
 import 'package:beer_app/repository/secure_storage/auth/auth_storage.dart';
 import 'package:beer_app/repository/secure_storage/secure_storage.dart';
 import 'package:beer_app/repository/shared_prefs/local/local_storage.dart';
-import 'package:beer_app/repository/todo/todo_repository.dart';
 import 'package:beer_app/styles/theme_data.dart';
 import 'package:beer_app/util/env/flavor_config.dart';
 import 'package:beer_app/util/locale/localization.dart';
@@ -20,9 +18,6 @@ import 'package:beer_app/viewmodel/debug/debug_viewmodel.dart';
 import 'package:beer_app/viewmodel/global/global_viewmodel.dart';
 import 'package:beer_app/viewmodel/license/license_viewmodel.dart';
 import 'package:beer_app/viewmodel/splash/splash_viewmodel.dart';
-import 'package:beer_app/viewmodel/todo/todo_add/todo_add_viewmodel.dart';
-import 'package:beer_app/viewmodel/todo/todo_list/todo_list_viewmodel.dart';
-import 'package:beer_app/webservice/todo/todo_service.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
@@ -37,8 +32,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../mocks/database/todo/mock_todo_dao_storage.dart';
 import '../util/test_util.dart';
-import 'injectable_test.mocks.dart';
-import 'test_injectable.config.dart';
 
 L getLocale<L>(BuildContext context) => getIt.get<Localization>() as L;
 
@@ -86,9 +79,6 @@ abstract class RegisterModule {
   MainNavigator get getMainNavigator => MockMainNavigator();
 
   @singleton
-  TodoDaoStorage get getTodoDaoStoring => MockTodoDaoStorage();
-
-  @singleton
   DebugRepository get getDebugRepo => MockDebugRepository();
 
   @singleton
@@ -113,9 +103,6 @@ abstract class RegisterModule {
   LocalStorage get getLocalStoring => MockLocalStorage();
 
   @singleton
-  TodoRepository get getTodoRepo => MockTodoRepository();
-
-  @singleton
   ConnectivityHelper get getConnectivityControlling => ConnectivityHelper(connectivityProvider: () => MockConnectivity());
 
   @singleton
@@ -126,9 +113,6 @@ abstract class RegisterModule {
 
   @singleton
   Dio get getDio => MockDio();
-
-  @singleton
-  TodoService get getTodoService => MockTodoService();
 
   @singleton
   DebugPlatformSelectorViewModel get getDebugPlatformSelectorViewModel => _initVM(MockDebugPlatformSelectorViewModel());
@@ -144,12 +128,6 @@ abstract class RegisterModule {
 
   @singleton
   SplashViewModel get getSplashViewModel => _initVM(MockSplashViewModel());
-
-  @singleton
-  TodoAddViewModel get getTodoAddViewModel => _initVM(MockTodoAddViewModel());
-
-  @singleton
-  TodoListViewModel get getTodoListViewModel => _initVM(MockTodoListViewModel());
 
   @singleton
   Localization get getLocalization => Localization();

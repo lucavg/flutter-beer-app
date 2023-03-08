@@ -1,4 +1,3 @@
-import 'package:beer_app/di/injectable.dart';
 import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
@@ -33,7 +32,8 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                 tag: "avatar_${widget.beerWithBrewery.beer.id}",
                 child: CircleAvatar(
                   radius: 100,
-                  backgroundImage: NetworkImage(widget.beerWithBrewery.beer.imageUrl),
+                  backgroundImage:
+                      NetworkImage(widget.beerWithBrewery.beer.imageUrl),
                 ),
               ),
             ),

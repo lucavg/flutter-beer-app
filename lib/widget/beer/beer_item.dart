@@ -14,6 +14,8 @@ class BeerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataProviderWidget(
+      // TODO: move onTap to this widget
+      // TODO: research difference between ValueChanged and VoidCallback
       childBuilderTheme: (context, theme) => GestureDetector(
         child: Container(
           color: Colors.transparent,

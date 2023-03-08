@@ -13,6 +13,7 @@ class LoginViewModel with ChangeNotifierEx {
 
   var _password = '';
   var _email = '';
+  var _passVisible = false;
 
   LoginViewModel(
     this._loginRepo,
@@ -39,6 +40,10 @@ class LoginViewModel with ChangeNotifierEx {
   void onPasswordUpdated(String password) {
     _password = password;
     notifyListeners();
+  }
+
+  void onToggle() {
+    _passVisible = !_passVisible;
   }
 
   Future<void> onLoginClicked() async {

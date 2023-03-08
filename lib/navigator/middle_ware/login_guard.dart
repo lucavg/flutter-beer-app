@@ -9,7 +9,6 @@ class LoginGuard extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    // TODO: Check if the user is logged in and if so, redirect to the home screen by returning the home route name
     return authStorage.isLoggedIn ? RouteSettings(name: MainNavigator.initialRoute) : null;
   }
 }

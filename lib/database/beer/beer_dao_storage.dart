@@ -17,7 +17,7 @@ abstract class BeerDaoStorage {
 
   Future<List<DbBeer>> getAllBeers();
 
-  Future<void> createBeer(String id, String name);
+  Future<void> createBeer(String name);
 
   Future<void> createBeerWithValue(Beer beer);
 
@@ -31,7 +31,7 @@ class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase> with _$_BeerDaoS
   _BeerDaoStorage(super.db);
 
   @override
-  Future<void> createBeer(String id, String name) => into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(id: id, name: name, rating: 0, thumbImageUrl: "", imageUrl: "", brewery: const Value("")));
+  Future<void> createBeer(String name) => into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(id: "", name: name, rating: 0, thumbImageUrl: "", imageUrl: "", brewery: const Value("")));
 
   @override
   Future<void> createBeerWithValue(Beer beer) async => {

@@ -77,7 +77,7 @@ class BeersOverViewViewModel with ChangeNotifierEx {
     await _beerRepository.setBeerRating(id: id, rating: rating);
   }
 
-  void onAddClicked() => _navigator.goToAddTodo();
+  void onAddClicked() => _navigator.goToAddBeer();
 
   void onLogoutClicked() => {_sharedPreferences.clear(), _navigator.goToSplash()};
 

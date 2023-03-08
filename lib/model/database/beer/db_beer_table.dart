@@ -1,4 +1,3 @@
-// TODO implement Beer table
 import 'package:beer_app/database/beer_app_database.dart';
 import 'package:beer_app/model/webservice/beer/beer.dart';
 import 'package:drift/drift.dart';

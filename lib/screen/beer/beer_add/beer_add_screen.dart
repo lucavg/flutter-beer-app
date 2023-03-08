@@ -1,31 +1,31 @@
+import 'package:beer_app/viewmodel/beer/beer_add/beer_add_viewmodel.dart';
+import 'package:beer_app/widget/general/styled/beer_app_back_button.dart';
+import 'package:beer_app/widget/general/styled/beer_app_button.dart';
+import 'package:beer_app/widget/general/styled/beer_app_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:beer_app/di/injectable.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
-import 'package:beer_app/viewmodel/todo/todo_add/todo_add_viewmodel.dart';
-import 'package:beer_app/widget/general/styled/beer_app_back_button.dart';
-import 'package:beer_app/widget/general/styled/beer_app_button.dart';
-import 'package:beer_app/widget/general/styled/beer_app_input_field.dart';
 import 'package:beer_app/widget/general/theme_widget.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
 import 'package:scroll_when_needed/scroll_when_needed.dart';
 
-class TodoAddScreen extends StatefulWidget {
-  static const String routeName = RouteNames.todoAddScreen;
+class BeerAddScreen extends StatefulWidget {
+  static const String routeName = RouteNames.beerAddScreen;
 
-  const TodoAddScreen({Key? key}) : super(key: key);
+  const BeerAddScreen({Key? key}) : super(key: key);
 
   @override
-  TodoAddScreenState createState() => TodoAddScreenState();
+  BeerAddScreenState createState() => BeerAddScreenState();
 }
 
 @visibleForTesting
-class TodoAddScreenState extends State<TodoAddScreen> {
+class BeerAddScreenState extends State<BeerAddScreen> {
   @override
   Widget build(BuildContext context) {
     return ThemeWidget(
-      child: ProviderWidget<TodoAddViewModel>(
+      child: ProviderWidget<BeerAddViewModel>(
         create: getIt,
         childBuilderWithViewModel: (context, viewModel, theme, localization) => ThemeWidget(
           child: Scaffold(
@@ -46,8 +46,8 @@ class TodoAddScreenState extends State<TodoAddScreen> {
                   padding: const EdgeInsets.all(ThemeDimens.padding16),
                   children: [
                     BeerAppInputField(
-                      hint: localization.todoAddInputHint,
-                      onChanged: viewModel.onTodoChanged,
+                      hint: "Name",
+                      onChanged: viewModel.onBeerChanged,
                     ),
                     Container(height: ThemeDimens.padding16),
                     BeerAppButton(

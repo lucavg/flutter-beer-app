@@ -3,7 +3,7 @@ import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/styles/theme_assets.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/util/keys.dart';
-import 'package:beer_app/viewmodel/beer/beers_overview_viewmodel.dart';
+import 'package:beer_app/viewmodel/beer/beer_overview/beers_overview_viewmodel.dart';
 import 'package:beer_app/widget/beer/beer_item.dart';
 import 'package:beer_app/widget/general/action/action_item.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
@@ -25,7 +25,8 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
   Widget build(BuildContext context) {
     return ProviderWidget<BeersOverViewViewModel>(
       create: () => getIt()..init(),
-      consumerWithThemeAndLocalization: (context, viewModel, child, theme, localization) {
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) {
         final errorKey = viewModel.errorKey;
         return Scaffold(
           backgroundColor: theme.colorsTheme.background,
@@ -47,17 +48,24 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                 onClick: viewModel.onAddClicked,
                 color: theme.colorsTheme.appBarAction,
               ),
-              ActionItem(key: Keys.logoutButton, svgAsset: ThemeAssets.logoutIcon(context), onClick: viewModel.onLogoutClicked, color: theme.colorsTheme.appBarAction),
+              ActionItem(
+                  key: Keys.logoutButton,
+                  svgAsset: ThemeAssets.logoutIcon(context),
+                  onClick: viewModel.onLogoutClicked,
+                  color: theme.colorsTheme.appBarAction),
             ],
           ),
           body: Builder(
             builder: (context) {
-              if (viewModel.isLoading) return Center(child: BeerAppProgressIndicator(dark: theme.isLightTheme));
+              if (viewModel.isLoading)
+                return Center(
+                    child: BeerAppProgressIndicator(dark: theme.isLightTheme));
               if (errorKey != null) {
                 return Center(
                   child: Text(
                     localization.getTranslation(errorKey),
-                    style: theme.coreTextTheme.bodyNormal.copyWith(color: theme.colorsTheme.errorText),
+                    style: theme.coreTextTheme.bodyNormal
+                        .copyWith(color: theme.colorsTheme.errorText),
                   ),
                 );
               }
@@ -67,7 +75,11 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                   stream: viewModel.dataBeerStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
-                    if (data == null) return const Center(child: Padding(padding: EdgeInsets.all(ThemeDimens.padding32), child: Text("List is empty")));
+                    if (data == null)
+                      return const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(ThemeDimens.padding32),
+                              child: Text("List is empty")));
                     if (data.isEmpty) {
                       return Center(
                         child: Padding(
@@ -85,14 +97,14 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                       itemBuilder: (context, index) {
                         final item = data[index];
                         return GestureDetector(
-                          onTap: () {
-                            viewModel.onBeerClicked(item);
-                          },
-                          child: BeerItem(beerWithBrewery: item)
-                        );
+                            onTap: () {
+                              viewModel.onBeerClicked(item);
+                            },
+                            child: BeerItem(beerWithBrewery: item));
                       },
                       separatorBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: ThemeDimens.padding16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: ThemeDimens.padding16),
                         child: Container(
                           height: 1,
                           color: theme.colorsTheme.primary.withOpacity(0.1),
