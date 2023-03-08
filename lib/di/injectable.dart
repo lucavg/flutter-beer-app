@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:beer_app/database/beer_app_database.dart';
-import 'package:beer_app/di/db/setup_drift_none.dart' 
-    if (dart.library.io) 'package:beer_app/di/db/setup_drift_io.dart' 
+import 'package:beer_app/di/db/setup_drift_none.dart'
+    if (dart.library.io) 'package:beer_app/di/db/setup_drift_io.dart'
     if (dart.library.js) 'package:beer_app/di/db/setup_drift_web.dart';
 import 'package:beer_app/di/injectable.config.dart';
 import 'package:beer_app/main_common.dart';
@@ -57,7 +56,8 @@ abstract class RegisterModule {
   Localization localization() => Localization();
 
   @lazySingleton
-  SharedPreferenceStorage sharedPreferences(SharedPreferences preferences) => SharedPreferenceStorage(preferences);
+  SharedPreferenceStorage sharedPreferences(SharedPreferences preferences) =>
+      SharedPreferenceStorage(preferences);
 
   @singleton
   ConnectivityHelper connectivityHelper() => ConnectivityHelper();
@@ -72,7 +72,8 @@ abstract class RegisterModule {
   FlutterSecureStorage storage() => const FlutterSecureStorage();
 
   @lazySingleton
-  SimpleKeyValueStorage keyValueStorage(SharedPreferenceStorage preferences, SecureStorage secure) {
+  SimpleKeyValueStorage keyValueStorage(
+      SharedPreferenceStorage preferences, SecureStorage secure) {
     if (kIsWeb) return preferences;
     return secure;
   }
@@ -104,9 +105,12 @@ abstract class RegisterModule {
   }
 
   @lazySingleton
-  BeerAppDatabase provideBeerAppDatabase(DatabaseConnection databaseConnection) => BeerAppDatabase.connect(databaseConnection);
+  BeerAppDatabase provideBADatabase(
+          DatabaseConnection databaseConnection) =>
+      BeerAppDatabase.connect(databaseConnection);
 }
 
 dynamic _parseAndDecode(String response) => jsonDecode(response);
 
-dynamic parseJson(String text) => compute<String, dynamic>(_parseAndDecode, text);
+dynamic parseJson(String text) =>
+    compute<String, dynamic>(_parseAndDecode, text);
