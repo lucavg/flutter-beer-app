@@ -25,4 +25,5 @@ class Keys {
   //Todo List
   static const downloadAction = ValueKey('download_actions');
   static const addAction = ValueKey('add_action');
+  static const logoutButton = ValueKey('logout_button');
 }

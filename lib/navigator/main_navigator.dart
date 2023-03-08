@@ -1,8 +1,12 @@
 import 'package:beer_app/model/snackbar/snackbar_data.dart';
+import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
+import 'package:beer_app/navigator/middle_ware/login_guard.dart';
+import 'package:beer_app/screen/beer/beer_detail/beer_detail_screen.dart';
 import 'package:beer_app/screen/debug/debug_platform_selector_screen.dart';
 import 'package:beer_app/screen/debug/debug_screen.dart';
 import 'package:beer_app/screen/home/home_screen.dart';
 import 'package:beer_app/screen/license/license_screen.dart';
+import 'package:beer_app/screen/login/login_screen.dart';
 import 'package:beer_app/screen/splash/splash_screen.dart';
 import 'package:beer_app/screen/theme_mode/theme_mode_selector.dart';
 import 'package:beer_app/screen/todo/todo_add/todo_add_screen.dart';
@@ -46,6 +50,11 @@ class MainNavigator {
       name: LicenseScreen.routeName,
       page: () => const FlavorBanner(child: LicenseScreen()),
     ),
+    BasePage<void>(name: LoginScreen.routeName, page: () => const FlavorBanner(child: LoginScreen()), middlewares: [LoginGuard()]),
+    BasePage<void>(
+      name: BeerDetailScreen.routeName,
+      page: () => FlavorBanner(child: BeerDetailScreen(beerWithBrewery: Get.arguments as BeerWithBrewery,)),
+    ),
     if (!FlavorConfig.isProd()) ...[
       BasePage<void>(
         name: DebugPlatformSelectorScreen.routeName,
@@ -66,6 +75,8 @@ class MainNavigator {
 
   void goToHome() async => Get.offNamed<void>(HomeScreen.routeName);
 
+  void goToBeerDetail(BeerWithBrewery beerWithBrewery) async => Get.offNamed<void>(BeerDetailScreen.routeName, arguments: beerWithBrewery);
+
   Future<void> goToAddTodo() async => Get.toNamed<void>(TodoAddScreen.routeName);
 
   Future<void> goToDebugPlatformSelector() async => Get.toNamed<void>(DebugPlatformSelectorScreen.routeName);
@@ -75,6 +86,8 @@ class MainNavigator {
   Future<void> goToDebug() async => Get.toNamed<void>(DebugScreen.routeName);
 
   Future<void> goToLicense() async => Get.toNamed<void>(LicenseScreen.routeName);
+
+  Future<void> goToLogin() async => Get.offNamed<void>(LoginScreen.routeName);
 
   void closeDialog() async => Get.back<void>();
 
