@@ -1,6 +1,4 @@
-import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
-import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/widget/provider/data_provider_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,6 @@ class BreweryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const List<int> ratingList = [0, 1, 2, 3, 4];
     return DataProviderWidget(
       // TODO: move onTap to this widget
       // TODO: research difference between ValueChanged and VoidCallback

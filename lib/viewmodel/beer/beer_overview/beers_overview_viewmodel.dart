@@ -27,10 +27,13 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   String? get errorKey => _errorKey;
 
   Stream<List<BeerWithBrewery>> get dataBeerStream => _beerStream;
+
   Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
+
   MainNavigator get navigator => _navigator;
 
-  BeersOverViewViewModel(this._beerRepository, this._breweryRepository, this._navigator, this._sharedPreferences);
+  BeersOverViewViewModel(this._beerRepository, this._breweryRepository,
+      this._navigator, this._sharedPreferences);
 
   Future<void> init() async {
     _beerStream = _beerRepository.getAllBeers();
@@ -64,5 +67,8 @@ class BeersOverViewViewModel with ChangeNotifierEx {
 
   void onAddClicked() => _navigator.goToAddBeer();
 
-  void onLogoutClicked() => {_sharedPreferences.clear(), _navigator.goToSplash()};
+  void onLogoutClicked() =>
+      {_sharedPreferences.clear(), _navigator.goToSplash()};
+
+  void onBeerClicked(BeerWithBrewery beer) => _navigator.goToBeerDetail(beer);
 }

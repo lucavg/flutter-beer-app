@@ -1,5 +1,5 @@
 import 'package:beer_app/model/database/beer/db_beer_table.dart';
-import 'package:beer_app/model/database/beer/db_brewery_table.dart';
+import 'package:beer_app/model/database/brewery/db_brewery_table.dart';
 import 'package:drift/drift.dart';
 
 

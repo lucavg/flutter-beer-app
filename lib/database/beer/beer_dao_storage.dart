@@ -1,6 +1,6 @@
 import 'package:beer_app/database/beer_app_database.dart';
 import 'package:beer_app/model/database/beer/db_beer_table.dart';
-import 'package:beer_app/model/database/beer/db_brewery_table.dart';
+import 'package:beer_app/model/database/brewery/db_brewery_table.dart';
 import 'package:beer_app/model/webservice/beer/beer.dart';
 import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:drift/drift.dart';
@@ -27,18 +27,32 @@ abstract class BeerDaoStorage {
 @DriftAccessor(tables: [
   DbBeerTable,
 ])
-class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase> with _$_BeerDaoStorageMixin implements BeerDaoStorage {
+class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase>
+    with _$_BeerDaoStorageMixin
+    implements BeerDaoStorage {
   _BeerDaoStorage(super.db);
 
   @override
-  Future<void> createBeer(String name) => into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(id: "", name: name, rating: 0, thumbImageUrl: "", imageUrl: "", brewery: const Value("")));
+  Future<void> createBeer(String name) =>
+      into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(
+          id: "",
+          name: name,
+          rating: 0,
+          thumbImageUrl: "",
+          imageUrl: "",
+          brewery: const Value("")));
 
   @override
   Future<void> createBeerWithValue(Beer beer) async => {
         // into(db.dbBreweryTable)
         //     .insert(DbBreweryTableCompanion.insert(id: beer.brewery!.id, name: beer.brewery!.name, address: beer.brewery!.address, city: beer.brewery!.city, country: beer.brewery!.country)),
-        into(db.dbBeerTable)
-            .insert(DbBeerTableCompanion.insert(id: beer.id, name: beer.name, rating: beer.rating, thumbImageUrl: beer.thumbImageUrl, imageUrl: beer.imageUrl, brewery: Value(beer.brewery?.id)))
+        into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(
+            id: beer.id,
+            name: beer.name,
+            rating: beer.rating,
+            thumbImageUrl: beer.thumbImageUrl,
+            imageUrl: beer.imageUrl,
+            brewery: Value(beer.brewery?.id)))
       };
 
   @override
@@ -50,7 +64,8 @@ class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase> with _$_BeerDaoS
   @override
   Stream<List<BeerWithBrewery>> getAllBeersStream() {
     final query = select(db.dbBeerTable).join([
-      leftOuterJoin(db.dbBreweryTable, db.dbBreweryTable.id.equalsExp(db.dbBeerTable.brewery)),
+      leftOuterJoin(db.dbBreweryTable,
+          db.dbBreweryTable.id.equalsExp(db.dbBeerTable.brewery)),
     ]);
     return query.watch().map((rows) {
       return rows.map((row) {
@@ -63,5 +78,7 @@ class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase> with _$_BeerDaoS
   }
 
   @override
-  Future<void> updateBeer({required String id, required int rating}) => (update(db.dbBeerTable)..where((beer) => beer.id.equals(id))).write(DbBeerTableCompanion(rating: Value(rating)));
+  Future<void> updateBeer({required String id, required int rating}) =>
+      (update(db.dbBeerTable)..where((beer) => beer.id.equals(id)))
+          .write(DbBeerTableCompanion(rating: Value(rating)));
 }

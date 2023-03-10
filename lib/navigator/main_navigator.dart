@@ -1,11 +1,15 @@
 import 'package:beer_app/model/snackbar/snackbar_data.dart';
+import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
+import 'package:beer_app/navigator/middle_ware/login_guard.dart';
+import 'package:beer_app/screen/beer/beer_add/beer_add_screen.dart';
+import 'package:beer_app/screen/beer/beer_detail/beer_detail_screen.dart';
 import 'package:beer_app/screen/debug/debug_platform_selector_screen.dart';
 import 'package:beer_app/screen/debug/debug_screen.dart';
 import 'package:beer_app/screen/home/home_screen.dart';
 import 'package:beer_app/screen/license/license_screen.dart';
+import 'package:beer_app/screen/login/login_screen.dart';
 import 'package:beer_app/screen/splash/splash_screen.dart';
 import 'package:beer_app/screen/theme_mode/theme_mode_selector.dart';
-import 'package:beer_app/screen/todo/todo_add/todo_add_screen.dart';
 import 'package:beer_app/util/env/flavor_config.dart';
 import 'package:beer_app/util/snackbar/error_util.dart';
 import 'package:beer_app/util/snackbar/snackbar_util.dart';
@@ -38,10 +42,6 @@ class MainNavigator {
     BasePage<void>(
       name: HomeScreen.routeName,
       page: () => const FlavorBanner(child: HomeScreen()),
-    ),
-    BasePage<void>(
-      name: TodoAddScreen.routeName,
-      page: () => const FlavorBanner(child: TodoAddScreen()),
     ),
     BasePage<void>(
       name: LicenseScreen.routeName,

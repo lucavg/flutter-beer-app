@@ -1,7 +1,6 @@
 import 'package:beer_app/viewmodel/beer/beer_add/beer_add_viewmodel.dart';
 import 'package:beer_app/widget/general/styled/beer_app_back_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_button.dart';
-import 'package:beer_app/widget/general/styled/beer_app_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:beer_app/di/injectable.dart';

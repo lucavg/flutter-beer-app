@@ -30,4 +30,6 @@ class ThemeAssets {
   static String doneIcon(BuildContext context) => _getIcon(context, 'done');
 
   static String analyticsImage(BuildContext context) => _getImage(context, 'analytics');
+
+  static String logoutIcon(BuildContext context) => _getImage(context, 'logout');
 }

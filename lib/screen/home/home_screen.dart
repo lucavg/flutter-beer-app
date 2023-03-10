@@ -1,7 +1,7 @@
+import 'package:beer_app/screen/beer/beer_overview/beers_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/screen/debug/debug_screen.dart';
-import 'package:beer_app/screen/todo/todo_list/todo_list_screen.dart';
 import 'package:beer_app/util/extension/localization_extension.dart';
 import 'package:beer_app/widget/general/theme_widget.dart';
 import 'package:beer_app/widget/provider/data_provider_widget.dart';
@@ -25,7 +25,7 @@ class HomeScreenState extends State<HomeScreen> {
         body: IndexedStack(
           index: _currentIndex,
           children: const [
-            TodoListScreen(),
+            BeersOverviewScreen(),
             DebugScreen(),
           ],
         ),
