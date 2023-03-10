@@ -8,7 +8,8 @@ class RouteNames {
   static const homeScreen = '/home';
   static const licenseScreen = '/license';
   static const loginScreen = '/login';
-  static const todoAddScreen = '/todo_add';
+  static const beerAddScreen = '/beer_add';
+  static const beerDetailScreen = '/beer_detail';
 
   static const firstScreen = homeScreen;
 }

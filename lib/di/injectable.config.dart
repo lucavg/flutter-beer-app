@@ -5,47 +5,52 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:dio/dio.dart' as _i38;
-import 'package:drift/drift.dart' as _i8;
-import 'package:flutter/foundation.dart' as _i4;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i10;
+import 'package:dio/dio.dart' as _i43;
+import 'package:drift/drift.dart' as _i10;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i14;
 import 'package:get_it/get_it.dart' as _i1;
-import 'package:icapps_architecture/icapps_architecture.dart' as _i7;
+import 'package:icapps_architecture/icapps_architecture.dart' as _i9;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:shared_preferences/shared_preferences.dart' as _i16;
+import 'package:shared_preferences/shared_preferences.dart' as _i20;
 
-import '../database/beer_app_database.dart' as _i19;
-import '../database/todo/todo_dao_storage.dart' as _i22;
+import '../database/beer/beer_dao_storage.dart' as _i5;
+import '../database/beer_app_database.dart' as _i24;
+import '../database/todo/todo_dao_storage.dart' as _i27;
 import '../navigator/main_navigator.dart' as _i12;
-import '../repository/debug/debug_repository.dart' as _i25;
-import '../repository/locale/locale_repository.dart' as _i27;
-import '../repository/login/login_repository.dart' as _i28;
-import '../repository/refresh/refresh_repository.dart' as _i30;
-import '../repository/secure_storage/auth/auth_storage.dart' as _i24;
-import '../repository/secure_storage/secure_storage.dart' as _i15;
-import '../repository/shared_prefs/local/local_storage.dart' as _i26;
-import '../repository/todo/todo_repository.dart' as _i23;
+import '../repository/beer/beer_repository.dart' as _i4;
+import '../repository/brewery/brewery_repository.dart' as _i6;
+import '../repository/debug/debug_repository.dart' as _i30;
+import '../repository/locale/locale_repository.dart' as _i32;
+import '../repository/login/login_repository.dart' as _i33;
+import '../repository/refresh/refresh_repository.dart' as _i35;
+import '../repository/secure_storage/auth/auth_storage.dart' as _i29;
+import '../repository/secure_storage/secure_storage.dart' as _i19;
+import '../repository/shared_prefs/local/local_storage.dart' as _i31;
+import '../repository/todo/todo_repository.dart' as _i28;
 import '../styles/theme_data.dart' as _i3;
-import '../util/cache/cache_controller.dart' as _i6;
-import '../util/cache/cache_controlling.dart' as _i5;
-import '../util/interceptor/network_auth_interceptor.dart' as _i29;
-import '../util/interceptor/network_error_interceptor.dart' as _i13;
-import '../util/interceptor/network_log_interceptor.dart' as _i14;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i37;
-import '../util/locale/localization.dart' as _i11;
-import '../util/snackbar/error_util.dart' as _i9;
-import '../viewmodel/debug/debug_platform_selector_viewmodel.dart' as _i20;
-import '../viewmodel/debug/debug_theme_selector_viewmodel.dart' as _i34;
-import '../viewmodel/debug/debug_viewmodel.dart' as _i35;
-import '../viewmodel/global/global_viewmodel.dart' as _i36;
-import '../viewmodel/license/license_viewmodel.dart' as _i21;
-import '../viewmodel/splash/splash_viewmodel.dart' as _i31;
-import '../viewmodel/todo/todo_add/todo_add_viewmodel.dart' as _i32;
-import '../viewmodel/todo/todo_list/todo_list_viewmodel.dart' as _i33;
-import '../webservice/todo/todo_dummy_service.dart' as _i18;
-import '../webservice/todo/todo_service.dart' as _i17;
-import '../webservice/todo/todo_webservice.dart' as _i39;
-import 'injectable.dart' as _i40;
+import '../util/cache/cache_controller.dart' as _i8;
+import '../util/cache/cache_controlling.dart' as _i7;
+import '../util/interceptor/network_auth_interceptor.dart' as _i34;
+import '../util/interceptor/network_error_interceptor.dart' as _i17;
+import '../util/interceptor/network_log_interceptor.dart' as _i18;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i42;
+import '../util/locale/localization.dart' as _i16;
+import '../util/snackbar/error_util.dart' as _i13;
+import '../viewmodel/beer/beer_add/beer_add_viewmodel.dart' as _i23;
+import '../viewmodel/beer/beer_detail/beer_detail_viewmodel.dart' as _i25;
+import '../viewmodel/beer/beer_overview/beers_overview_viewmodel.dart' as _i26;
+import '../viewmodel/debug/debug_platform_selector_viewmodel.dart' as _i11;
+import '../viewmodel/debug/debug_theme_selector_viewmodel.dart' as _i39;
+import '../viewmodel/debug/debug_viewmodel.dart' as _i40;
+import '../viewmodel/global/global_viewmodel.dart' as _i41;
+import '../viewmodel/license/license_viewmodel.dart' as _i15;
+import '../viewmodel/splash/splash_viewmodel.dart' as _i36;
+import '../viewmodel/todo/todo_add/todo_add_viewmodel.dart' as _i37;
+import '../viewmodel/todo/todo_list/todo_list_viewmodel.dart' as _i38;
+import '../webservice/todo/todo_dummy_service.dart' as _i22;
+import '../webservice/todo/todo_service.dart' as _i21;
+import '../webservice/todo/todo_webservice.dart' as _i44;
+import 'injectable.dart' as _i45;
 
 const String _dummy = 'dummy';
 const String _dev = 'dev';
@@ -65,110 +70,130 @@ Future<_i1.GetIt> $initGetIt(
   );
   final registerModule = _$RegisterModule();
   gh.lazySingleton<_i3.BeerAppTheme>(() => registerModule.theme());
-  gh.factory<_i4.Brightness>(() => registerModule.brightness());
-  gh.singleton<_i5.CacheControlling>(_i6.CacheController());
-  gh.singleton<_i7.ConnectivityHelper>(registerModule.connectivityHelper());
-  await gh.singletonAsync<_i8.DatabaseConnection>(
+  gh.lazySingleton<_i4.BeerRepository>(() => _i4.BeerRepository(
+        get<dynamic>(),
+        get<_i5.BeerDaoStorage>(),
+      ));
+  gh.lazySingleton<_i6.BreweryRepository>(() => _i6.BreweryRepository(
+        get<dynamic>(),
+        get<dynamic>(),
+      ));
+  gh.singleton<_i7.CacheControlling>(_i8.CacheController());
+  gh.singleton<_i9.ConnectivityHelper>(registerModule.connectivityHelper());
+  await gh.singletonAsync<_i10.DatabaseConnection>(
     () => registerModule.provideDatabaseConnection(),
     preResolve: true,
   );
-  gh.lazySingleton<_i9.ErrorUtil>(() => _i9.ErrorUtil());
-  gh.lazySingleton<_i10.FlutterSecureStorage>(() => registerModule.storage());
-  gh.lazySingleton<_i11.Localization>(() => registerModule.localization());
-  gh.lazySingleton<_i12.MainNavigator>(
-      () => _i12.MainNavigator(get<_i9.ErrorUtil>()));
-  gh.singleton<_i13.NetworkErrorInterceptor>(
-      _i13.NetworkErrorInterceptor(get<_i7.ConnectivityHelper>()));
-  gh.singleton<_i14.NetworkLogInterceptor>(_i14.NetworkLogInterceptor());
-  gh.lazySingleton<_i15.SecureStorage>(
-      () => _i15.SecureStorage(get<_i10.FlutterSecureStorage>()));
-  await gh.singletonAsync<_i16.SharedPreferences>(
+  gh.factory<_i11.DebugPlatformSelectorViewModel>(
+      () => _i11.DebugPlatformSelectorViewModel(get<_i12.MainNavigator>()));
+  gh.lazySingleton<_i13.ErrorUtil>(() => _i13.ErrorUtil());
+  gh.lazySingleton<_i14.FlutterSecureStorage>(() => registerModule.storage());
+  gh.factory<_i15.LicenseViewModel>(
+      () => _i15.LicenseViewModel(get<_i12.MainNavigator>()));
+  gh.lazySingleton<_i16.Localization>(() => registerModule.localization());
+  gh.singleton<_i17.NetworkErrorInterceptor>(
+      _i17.NetworkErrorInterceptor(get<_i9.ConnectivityHelper>()));
+  gh.singleton<_i18.NetworkLogInterceptor>(_i18.NetworkLogInterceptor());
+  gh.lazySingleton<_i19.SecureStorage>(
+      () => _i19.SecureStorage(get<_i14.FlutterSecureStorage>()));
+  await gh.singletonAsync<_i20.SharedPreferences>(
     () => registerModule.prefs(),
     preResolve: true,
   );
-  gh.singleton<_i17.TodoService>(
-    _i18.TodoDummyService(),
+  gh.singleton<_i21.TodoService>(
+    _i22.TodoDummyService(),
     registerFor: {_dummy},
   );
-  gh.lazySingleton<_i19.BeerAppDatabase>(() =>
-      registerModule.provideBeerAppDatabase(get<_i8.DatabaseConnection>()));
-  gh.factory<_i20.DebugPlatformSelectorViewModel>(
-      () => _i20.DebugPlatformSelectorViewModel(get<_i12.MainNavigator>()));
-  gh.factory<_i21.LicenseViewModel>(
-      () => _i21.LicenseViewModel(get<_i12.MainNavigator>()));
-  gh.lazySingleton<_i7.SharedPreferenceStorage>(
-      () => registerModule.sharedPreferences(get<_i16.SharedPreferences>()));
-  gh.lazySingleton<_i7.SimpleKeyValueStorage>(
+  gh.factory<_i23.BeerAddViewModel>(() => _i23.BeerAddViewModel(
+        get<_i4.BeerRepository>(),
+        get<_i6.BreweryRepository>(),
+        get<_i12.MainNavigator>(),
+      ));
+  gh.lazySingleton<_i24.BeerAppDatabase>(() =>
+      registerModule.provideBeerAppDatabase(get<_i10.DatabaseConnection>()));
+  gh.factory<_i25.BeerDetailViewModel>(() => _i25.BeerDetailViewModel(
+        get<_i12.MainNavigator>(),
+        get<_i20.SharedPreferences>(),
+      ));
+  gh.factory<_i26.BeersOverViewViewModel>(() => _i26.BeersOverViewViewModel(
+        get<_i4.BeerRepository>(),
+        get<_i6.BreweryRepository>(),
+        get<_i12.MainNavigator>(),
+        get<_i20.SharedPreferences>(),
+      ));
+  gh.lazySingleton<_i9.SharedPreferenceStorage>(
+      () => registerModule.sharedPreferences(get<_i20.SharedPreferences>()));
+  gh.lazySingleton<_i9.SimpleKeyValueStorage>(
       () => registerModule.keyValueStorage(
-            get<_i7.SharedPreferenceStorage>(),
-            get<_i15.SecureStorage>(),
+            get<_i9.SharedPreferenceStorage>(),
+            get<_i19.SecureStorage>(),
           ));
-  gh.lazySingleton<_i22.TodoDaoStorage>(
-      () => _i22.TodoDaoStorage(get<_i19.BeerAppDatabase>()));
-  gh.lazySingleton<_i23.TodoRepository>(() => _i23.TodoRepository(
-        get<_i17.TodoService>(),
-        get<_i22.TodoDaoStorage>(),
+  gh.lazySingleton<_i27.TodoDaoStorage>(
+      () => _i27.TodoDaoStorage(get<_i24.BeerAppDatabase>()));
+  gh.lazySingleton<_i28.TodoRepository>(() => _i28.TodoRepository(
+        get<_i21.TodoService>(),
+        get<_i27.TodoDaoStorage>(),
       ));
-  gh.lazySingleton<_i24.AuthStorage>(
-      () => _i24.AuthStorage(get<_i7.SimpleKeyValueStorage>()));
-  gh.lazySingleton<_i25.DebugRepository>(
-      () => _i25.DebugRepository(get<_i7.SharedPreferenceStorage>()));
-  gh.lazySingleton<_i26.LocalStorage>(() => _i26.LocalStorage(
-        get<_i24.AuthStorage>(),
-        get<_i7.SharedPreferenceStorage>(),
+  gh.lazySingleton<_i29.AuthStorage>(
+      () => _i29.AuthStorage(get<_i9.SimpleKeyValueStorage>()));
+  gh.lazySingleton<_i30.DebugRepository>(
+      () => _i30.DebugRepository(get<_i9.SharedPreferenceStorage>()));
+  gh.lazySingleton<_i31.LocalStorage>(() => _i31.LocalStorage(
+        get<_i29.AuthStorage>(),
+        get<_i9.SharedPreferenceStorage>(),
       ));
-  gh.lazySingleton<_i27.LocaleRepository>(
-      () => _i27.LocaleRepository(get<_i7.SharedPreferenceStorage>()));
-  gh.lazySingleton<_i28.LoginRepository>(
-      () => _i28.LoginRepository(get<_i24.AuthStorage>()));
-  gh.singleton<_i29.NetworkAuthInterceptor>(
-      _i29.NetworkAuthInterceptor(get<_i24.AuthStorage>()));
-  gh.lazySingleton<_i30.RefreshRepository>(
-      () => _i30.RefreshRepository(get<_i24.AuthStorage>()));
-  gh.factory<_i31.SplashViewModel>(() => _i31.SplashViewModel(
-        get<_i26.LocalStorage>(),
+  gh.lazySingleton<_i32.LocaleRepository>(
+      () => _i32.LocaleRepository(get<_i9.SharedPreferenceStorage>()));
+  gh.lazySingleton<_i33.LoginRepository>(
+      () => _i33.LoginRepository(get<_i29.AuthStorage>()));
+  gh.singleton<_i34.NetworkAuthInterceptor>(
+      _i34.NetworkAuthInterceptor(get<_i29.AuthStorage>()));
+  gh.lazySingleton<_i35.RefreshRepository>(
+      () => _i35.RefreshRepository(get<_i29.AuthStorage>()));
+  gh.factory<_i36.SplashViewModel>(() => _i36.SplashViewModel(
+        get<_i31.LocalStorage>(),
         get<_i12.MainNavigator>(),
       ));
-  gh.factory<_i32.TodoAddViewModel>(() => _i32.TodoAddViewModel(
-        get<_i23.TodoRepository>(),
+  gh.factory<_i37.TodoAddViewModel>(() => _i37.TodoAddViewModel(
+        get<_i28.TodoRepository>(),
         get<_i12.MainNavigator>(),
       ));
-  gh.factory<_i33.TodoListViewModel>(() => _i33.TodoListViewModel(
-        get<_i23.TodoRepository>(),
+  gh.factory<_i38.TodoListViewModel>(() => _i38.TodoListViewModel(
+        get<_i28.TodoRepository>(),
         get<_i12.MainNavigator>(),
       ));
-  gh.factory<_i34.DebugThemeSelectorViewmodel>(
-      () => _i34.DebugThemeSelectorViewmodel(
+  gh.factory<_i39.DebugThemeSelectorViewmodel>(
+      () => _i39.DebugThemeSelectorViewmodel(
             get<_i12.MainNavigator>(),
-            get<_i26.LocalStorage>(),
+            get<_i31.LocalStorage>(),
           ));
-  gh.factory<_i35.DebugViewModel>(() => _i35.DebugViewModel(
-        get<_i25.DebugRepository>(),
+  gh.factory<_i40.DebugViewModel>(() => _i40.DebugViewModel(
+        get<_i30.DebugRepository>(),
         get<_i12.MainNavigator>(),
-        get<_i19.BeerAppDatabase>(),
-        get<_i26.LocalStorage>(),
+        get<_i24.BeerAppDatabase>(),
+        get<_i31.LocalStorage>(),
       ));
-  gh.lazySingleton<_i36.GlobalViewModel>(() => _i36.GlobalViewModel(
-        get<_i27.LocaleRepository>(),
-        get<_i25.DebugRepository>(),
-        get<_i26.LocalStorage>(),
-        get<_i11.Localization>(),
+  gh.lazySingleton<_i41.GlobalViewModel>(() => _i41.GlobalViewModel(
+        get<_i32.LocaleRepository>(),
+        get<_i30.DebugRepository>(),
+        get<_i31.LocalStorage>(),
+        get<_i16.Localization>(),
       ));
-  gh.singleton<_i37.NetworkRefreshInterceptor>(_i37.NetworkRefreshInterceptor(
-    get<_i24.AuthStorage>(),
-    get<_i30.RefreshRepository>(),
+  gh.singleton<_i42.NetworkRefreshInterceptor>(_i42.NetworkRefreshInterceptor(
+    get<_i29.AuthStorage>(),
+    get<_i35.RefreshRepository>(),
   ));
-  gh.lazySingleton<_i7.CombiningSmartInterceptor>(
+  gh.lazySingleton<_i9.CombiningSmartInterceptor>(
       () => registerModule.provideCombiningSmartInterceptor(
-            get<_i14.NetworkLogInterceptor>(),
-            get<_i29.NetworkAuthInterceptor>(),
-            get<_i13.NetworkErrorInterceptor>(),
-            get<_i37.NetworkRefreshInterceptor>(),
+            get<_i18.NetworkLogInterceptor>(),
+            get<_i34.NetworkAuthInterceptor>(),
+            get<_i17.NetworkErrorInterceptor>(),
+            get<_i42.NetworkRefreshInterceptor>(),
           ));
-  gh.lazySingleton<_i38.Dio>(
-      () => registerModule.provideDio(get<_i7.CombiningSmartInterceptor>()));
-  gh.singleton<_i17.TodoService>(
-    _i39.TodoWebService(get<_i38.Dio>()),
+  gh.lazySingleton<_i43.Dio>(
+      () => registerModule.provideDio(get<_i9.CombiningSmartInterceptor>()));
+  gh.singleton<_i21.TodoService>(
+    _i44.TodoWebService(get<_i43.Dio>()),
     registerFor: {
       _dev,
       _prod,
@@ -177,4 +202,4 @@ Future<_i1.GetIt> $initGetIt(
   return get;
 }
 
-class _$RegisterModule extends _i40.RegisterModule {}
+class _$RegisterModule extends _i45.RegisterModule {}

@@ -186,6 +186,14 @@ class MockMainNavigator extends _i1.Mock implements _i5.MainNavigator {
   }
 
   @override
+  set changes(dynamic _changes) => super.noSuchMethod(
+        Invocation.setter(
+          #changes,
+          _changes,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void goToSplash() => super.noSuchMethod(
         Invocation.method(
           #goToSplash,
@@ -205,6 +213,23 @@ class MockMainNavigator extends _i1.Mock implements _i5.MainNavigator {
   _i6.Future<void> goToAddTodo() => (super.noSuchMethod(
         Invocation.method(
           #goToAddTodo,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  void goToBeerDetail(dynamic beerWithBrewery) => super.noSuchMethod(
+        Invocation.method(
+          #goToBeerDetail,
+          [beerWithBrewery],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Future<void> goToAddBeer() => (super.noSuchMethod(
+        Invocation.method(
+          #goToAddBeer,
           [],
         ),
         returnValue: _i6.Future<void>.value(),

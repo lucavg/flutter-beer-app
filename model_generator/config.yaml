@@ -1,14 +1,45 @@
-##################################################################################
-#####                                TODO                                    #####
-##################################################################################
-Todo:
-  path: webservice/todo/
+LoginResponseData:
+  path: webservice/login
   properties:
-    id:
-      type: int
-    title:
-      required: true
-      type: String
-    completed:
-      required: true
-      type: bool
+    accessToken: string
+    refreshToken: string
+LoginResponse:
+  path: webservice/login
+  properties:
+    data: LoginResponseData
+LoginRequest:
+  path: webservice/login
+  properties:
+    username: string
+    password: string
+    deviceId: string
+Brewery:
+  path: webservice/beer
+  properties:
+    id: string
+    name: string
+    address: string
+    city: string
+    country: string
+Beer:
+  path: webservice/beer
+  properties:
+    id: string
+    name: string
+    rating: int
+    thumbImageUrl: string
+    imageUrl: string
+    brewery: Brewery?
+BeerResponse:
+  path: webservice/beer
+  properties:
+    data: List<Beer>
+BreweryResponse:
+  path: webservice/beer
+  properties:
+    data: List<Brewery>
+BeerWithBrewery:
+  path: webservice/beer
+  properties:
+    beer: Beer
+    brewery: Brewery?
