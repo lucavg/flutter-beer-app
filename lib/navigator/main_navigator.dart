@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:injectable/injectable.dart';
 
+import '../screen/beer/beer_add/beer_add_screen.dart';
+
 @lazySingleton
 class MainNavigator {
   final ErrorUtil _errorUtil;

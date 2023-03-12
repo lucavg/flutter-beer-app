@@ -1,4 +1,4 @@
-import 'package:beer_app/screen/beer/beer_overview/beers_overview_screen.dart';
+import 'package:beer_app/screen/beer/beers_overview/beers_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/screen/debug/debug_screen.dart';
@@ -37,9 +37,9 @@ class HomeScreenState extends State<HomeScreen> {
             selectedItemColor: theme.colorsTheme.bottomNavbarItemActive,
             unselectedItemColor: theme.colorsTheme.bottomNavbarItemInactive,
             items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.list),
-                label: localization.todoTitle,
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.local_drink),
+                label: "Beer",
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.settings),

@@ -33,33 +33,38 @@ class _BeerDaoStorage extends DatabaseAccessor<BeerAppDatabase>
   _BeerDaoStorage(super.db);
 
   @override
-  Future<void> createBeer(String name) =>
-      into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(
+  Future<void> createBeer(String name) => into(db.dbBeerTable).insert(
+        DbBeerTableCompanion.insert(
           id: "",
           name: name,
           rating: 0,
           thumbImageUrl: "",
           imageUrl: "",
-          brewery: const Value("")));
+          brewery: const Value(""),
+        ),
+      );
 
   @override
-  Future<void> createBeerWithValue(Beer beer) async => {
-        // into(db.dbBreweryTable)
-        //     .insert(DbBreweryTableCompanion.insert(id: beer.brewery!.id, name: beer.brewery!.name, address: beer.brewery!.address, city: beer.brewery!.city, country: beer.brewery!.country)),
-        into(db.dbBeerTable).insert(DbBeerTableCompanion.insert(
-            id: beer.id,
-            name: beer.name,
-            rating: beer.rating,
-            thumbImageUrl: beer.thumbImageUrl,
-            imageUrl: beer.imageUrl,
-            brewery: Value(beer.brewery?.id)))
-      };
+  Future<void> createBeerWithValue(Beer beer) async {
+    final query = select(db.dbBeerTable)
+      ..where((tbl) => tbl.id.equals(beer.id));
+    final existingBreweries = await query.get();
+    if (existingBreweries.isEmpty) {
+      await into(db.dbBeerTable).insert(
+        DbBeerTableCompanion.insert(
+          id: beer.id,
+          name: beer.name,
+          rating: beer.rating,
+          thumbImageUrl: beer.thumbImageUrl,
+          imageUrl: beer.imageUrl,
+          brewery: Value(beer.brewery?.id),
+        ),
+      );
+    }
+  }
 
   @override
   Future<List<DbBeer>> getAllBeers() => select(db.dbBeerTable).get();
-
-  // @override
-  // Stream<List<Beer>> getAllBeersStream() => select(db.dbBeerTable).watch().map((event) => event.map((e) => e.getModel()).toList());
 
   @override
   Stream<List<BeerWithBrewery>> getAllBeersStream() {

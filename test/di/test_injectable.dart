@@ -32,8 +32,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../mocks/database/todo/mock_todo_dao_storage.dart';
 import '../util/test_util.dart';
-import 'injectable_test.mocks.dart';
-import 'test_injectable.config.dart';
 
 L getLocale<L>(BuildContext context) => getIt.get<Localization>() as L;
 

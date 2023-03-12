@@ -26,12 +26,12 @@ class BeerAddViewModel with ChangeNotifierEx {
   String? _breweryCountry;
   final String _dropdownHint = "Select a brewery";
 
-  late Future<List<Brewery>> _breweryFuture;
+  late Stream<List<Brewery>> _breweryStream;
   static const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
 
-  Future<List<Brewery>> get dataBreweryFuture => _breweryFuture;
+  Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
 
   String get breweryId => _breweryId.toString();
 
@@ -53,7 +53,7 @@ class BeerAddViewModel with ChangeNotifierEx {
   );
 
   Future<void> init() async {
-    _breweryFuture = _breweryRepository.fetchBreweries();
+    _breweryStream = _breweryRepository.getAllBreweries().asBroadcastStream();
   }
 
   void onNameChanged(String beerName) {

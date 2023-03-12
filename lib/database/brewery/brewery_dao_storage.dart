@@ -2,6 +2,7 @@ import 'package:beer_app/database/beer_app_database.dart';
 import 'package:beer_app/model/database/brewery/db_brewery_table.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:drift/drift.dart';
+import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
 part 'brewery_dao_storage.g.dart';
@@ -23,19 +24,42 @@ abstract class BreweryDaoStorage {
 @DriftAccessor(tables: [
   DbBreweryTable,
 ])
-class _BreweryDaoStorage extends DatabaseAccessor<BeerAppDatabase> with _$_BreweryDaoStorageMixin implements BreweryDaoStorage {
+class _BreweryDaoStorage extends DatabaseAccessor<BeerAppDatabase>
+    with _$_BreweryDaoStorageMixin
+    implements BreweryDaoStorage {
   _BreweryDaoStorage(super.db);
 
   @override
-  Future<void> createBrewery(String id, String name) => into(db.dbBreweryTable).insert(DbBreweryTableCompanion.insert(id: id, name: name, address: "", city: "", country: ""));
+  Future<void> createBrewery(String id, String name) =>
+      into(db.dbBreweryTable).insert(
+        DbBreweryTableCompanion.insert(
+            id: id, name: name, address: "", city: "", country: ""),
+      );
 
   @override
-  Future<void> createBreweryWithValue(Brewery brewery) async =>
-      into(db.dbBreweryTable).insert(DbBreweryTableCompanion.insert(id: brewery.id, name: brewery.name, address: brewery.address, city: brewery.city, country: brewery.country));
+  Future<void> createBreweryWithValue(Brewery brewery) async {
+    final query = select(db.dbBreweryTable)
+      ..where((tbl) => tbl.id.equals(brewery.id));
+    final existingBreweries = await query.get();
+
+    if (existingBreweries.isEmpty) {
+      await into(db.dbBreweryTable).insert(
+        DbBreweryTableCompanion.insert(
+          id: brewery.id,
+          name: brewery.name,
+          address: brewery.address,
+          city: brewery.city,
+          country: brewery.country,
+        ),
+      );
+    }
+  }
 
   @override
   Future<List<DbBrewery>> getAllBreweries() => select(db.dbBreweryTable).get();
 
   @override
-  Stream<List<Brewery>> getAllBreweriesStream() => select(db.dbBreweryTable).watch().map((event) => event.map((e) => e.getModel()).toList());
+  Stream<List<Brewery>> getAllBreweriesStream() => select(db.dbBreweryTable)
+      .watch()
+      .map((event) => event.map((e) => e.getModel()).toList());
 }

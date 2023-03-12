@@ -5,7 +5,7 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:dio/dio.dart' as _i35;
+import 'package:dio/dio.dart' as _i32;
 import 'package:drift/drift.dart' as _i7;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i9;
 import 'package:get_it/get_it.dart' as _i1;
@@ -21,36 +21,36 @@ import '../repository/beer/beer_repository.dart' as _i42;
 import '../repository/brewery/brewery_repository.dart' as _i43;
 import '../repository/debug/debug_repository.dart' as _i23;
 import '../repository/locale/locale_repository.dart' as _i25;
-import '../repository/login/login_repository.dart' as _i26;
-import '../repository/refresh/refresh_repository.dart' as _i29;
+import '../repository/login/login_repository.dart' as _i39;
+import '../repository/refresh/refresh_repository.dart' as _i27;
 import '../repository/secure_storage/auth/auth_storage.dart' as _i22;
 import '../repository/secure_storage/secure_storage.dart' as _i14;
 import '../repository/shared_prefs/local/local_storage.dart' as _i24;
 import '../styles/theme_data.dart' as _i3;
 import '../util/cache/cache_controller.dart' as _i5;
 import '../util/cache/cache_controlling.dart' as _i4;
-import '../util/interceptor/network_auth_interceptor.dart' as _i28;
+import '../util/interceptor/network_auth_interceptor.dart' as _i26;
 import '../util/interceptor/network_error_interceptor.dart' as _i12;
 import '../util/interceptor/network_log_interceptor.dart' as _i13;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i34;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i31;
 import '../util/locale/localization.dart' as _i10;
 import '../util/snackbar/error_util.dart' as _i8;
 import '../viewmodel/beer/beer_add/beer_add_viewmodel.dart' as _i44;
 import '../viewmodel/beer/beer_detail/beer_detail_viewmodel.dart' as _i18;
-import '../viewmodel/beer/beer_overview/beers_overview_viewmodel.dart' as _i45;
+import '../viewmodel/beer/beers_overview/beers_overview_viewmodel.dart' as _i45;
 import '../viewmodel/debug/debug_platform_selector_viewmodel.dart' as _i20;
-import '../viewmodel/debug/debug_theme_selector_viewmodel.dart' as _i31;
-import '../viewmodel/debug/debug_viewmodel.dart' as _i32;
-import '../viewmodel/global/global_viewmodel.dart' as _i33;
+import '../viewmodel/debug/debug_theme_selector_viewmodel.dart' as _i28;
+import '../viewmodel/debug/debug_viewmodel.dart' as _i29;
+import '../viewmodel/global/global_viewmodel.dart' as _i30;
 import '../viewmodel/license/license_viewmodel.dart' as _i21;
-import '../viewmodel/login/login_viewmodel.dart' as _i27;
-import '../viewmodel/splash/splash_viewmodel.dart' as _i30;
-import '../webservice/beer/beer_service.dart' as _i38;
-import '../webservice/beer/beer_webservice.dart' as _i39;
-import '../webservice/brewery/brewery_service.dart' as _i40;
-import '../webservice/brewery/brewery_webservice.dart' as _i41;
-import '../webservice/login/login_service.dart' as _i36;
-import '../webservice/login/login_webservice.dart' as _i37;
+import '../viewmodel/login/login_viewmodel.dart' as _i40;
+import '../viewmodel/splash/splash_viewmodel.dart' as _i41;
+import '../webservice/beer/beer_service.dart' as _i35;
+import '../webservice/beer/beer_webservice.dart' as _i36;
+import '../webservice/brewery/brewery_service.dart' as _i37;
+import '../webservice/brewery/brewery_webservice.dart' as _i38;
+import '../webservice/login/login_service.dart' as _i33;
+import '../webservice/login/login_webservice.dart' as _i34;
 import 'injectable.dart' as _i46;
 
 const String _dev = 'dev';
@@ -90,8 +90,8 @@ Future<_i1.GetIt> $initGetIt(
     () => registerModule.prefs(),
     preResolve: true,
   );
-  gh.lazySingleton<_i16.BeerAppDatabase>(() =>
-      registerModule.provideBeerAppDatabase(get<_i7.DatabaseConnection>()));
+  gh.lazySingleton<_i16.BeerAppDatabase>(
+      () => registerModule.provideBADatabase(get<_i7.DatabaseConnection>()));
   gh.lazySingleton<_i17.BeerDaoStorage>(
       () => _i17.BeerDaoStorage(get<_i16.BeerAppDatabase>()));
   gh.factory<_i18.BeerDetailViewModel>(() => _i18.BeerDetailViewModel(
@@ -121,72 +121,75 @@ Future<_i1.GetIt> $initGetIt(
       ));
   gh.lazySingleton<_i25.LocaleRepository>(
       () => _i25.LocaleRepository(get<_i6.SharedPreferenceStorage>()));
-  gh.lazySingleton<_i26.LoginRepository>(
-      () => _i26.LoginRepository(get<_i22.AuthStorage>()));
-  gh.factory<_i27.LoginViewModel>(() => _i27.LoginViewModel(
-        get<_i26.LoginRepository>(),
-        get<_i11.MainNavigator>(),
-        get<_i8.ErrorUtil>(),
-      ));
-  gh.singleton<_i28.NetworkAuthInterceptor>(
-      _i28.NetworkAuthInterceptor(get<_i22.AuthStorage>()));
-  gh.lazySingleton<_i29.RefreshRepository>(
-      () => _i29.RefreshRepository(get<_i22.AuthStorage>()));
-  gh.factory<_i30.SplashViewModel>(() => _i30.SplashViewModel(
-        get<_i24.LocalStorage>(),
-        get<_i11.MainNavigator>(),
-      ));
-  gh.factory<_i31.DebugThemeSelectorViewmodel>(
-      () => _i31.DebugThemeSelectorViewmodel(
+  gh.singleton<_i26.NetworkAuthInterceptor>(
+      _i26.NetworkAuthInterceptor(get<_i22.AuthStorage>()));
+  gh.lazySingleton<_i27.RefreshRepository>(
+      () => _i27.RefreshRepository(get<_i22.AuthStorage>()));
+  gh.factory<_i28.DebugThemeSelectorViewmodel>(
+      () => _i28.DebugThemeSelectorViewmodel(
             get<_i11.MainNavigator>(),
             get<_i24.LocalStorage>(),
           ));
-  gh.factory<_i32.DebugViewModel>(() => _i32.DebugViewModel(
+  gh.factory<_i29.DebugViewModel>(() => _i29.DebugViewModel(
         get<_i23.DebugRepository>(),
         get<_i11.MainNavigator>(),
         get<_i16.BeerAppDatabase>(),
         get<_i24.LocalStorage>(),
       ));
-  gh.lazySingleton<_i33.GlobalViewModel>(() => _i33.GlobalViewModel(
+  gh.lazySingleton<_i30.GlobalViewModel>(() => _i30.GlobalViewModel(
         get<_i25.LocaleRepository>(),
         get<_i23.DebugRepository>(),
         get<_i24.LocalStorage>(),
         get<_i10.Localization>(),
       ));
-  gh.singleton<_i34.NetworkRefreshInterceptor>(_i34.NetworkRefreshInterceptor(
+  gh.singleton<_i31.NetworkRefreshInterceptor>(_i31.NetworkRefreshInterceptor(
     get<_i22.AuthStorage>(),
-    get<_i29.RefreshRepository>(),
+    get<_i27.RefreshRepository>(),
   ));
   gh.lazySingleton<_i6.CombiningSmartInterceptor>(
       () => registerModule.provideCombiningSmartInterceptor(
             get<_i13.NetworkLogInterceptor>(),
-            get<_i28.NetworkAuthInterceptor>(),
+            get<_i26.NetworkAuthInterceptor>(),
             get<_i12.NetworkErrorInterceptor>(),
-            get<_i34.NetworkRefreshInterceptor>(),
+            get<_i31.NetworkRefreshInterceptor>(),
           ));
-  gh.lazySingleton<_i35.Dio>(
+  gh.lazySingleton<_i32.Dio>(
       () => registerModule.provideDio(get<_i6.CombiningSmartInterceptor>()));
-  gh.singleton<_i36.LoginService>(_i37.LoginWebService(get<_i35.Dio>()));
-  gh.singleton<_i38.BeerService>(
-    _i39.BeerWebService(get<_i35.Dio>()),
+  gh.singleton<_i33.LoginService>(_i34.LoginWebService(get<_i32.Dio>()));
+  gh.singleton<_i35.BeerService>(
+    _i36.BeerWebService(get<_i32.Dio>()),
     registerFor: {
       _dev,
       _prod,
     },
   );
-  gh.singleton<_i40.BreweryService>(
-    _i41.BreweryWebService(get<_i35.Dio>()),
+  gh.singleton<_i37.BreweryService>(
+    _i38.BreweryWebService(get<_i32.Dio>()),
     registerFor: {
       _dev,
       _prod,
     },
   );
+  gh.lazySingleton<_i39.LoginRepository>(() => _i39.LoginRepository(
+        get<_i22.AuthStorage>(),
+        get<_i33.LoginService>(),
+      ));
+  gh.factory<_i40.LoginViewModel>(() => _i40.LoginViewModel(
+        get<_i39.LoginRepository>(),
+        get<_i11.MainNavigator>(),
+        get<_i8.ErrorUtil>(),
+      ));
+  gh.factory<_i41.SplashViewModel>(() => _i41.SplashViewModel(
+        get<_i24.LocalStorage>(),
+        get<_i11.MainNavigator>(),
+        get<_i39.LoginRepository>(),
+      ));
   gh.lazySingleton<_i42.BeerRepository>(() => _i42.BeerRepository(
-        get<_i38.BeerService>(),
+        get<_i35.BeerService>(),
         get<_i17.BeerDaoStorage>(),
       ));
   gh.lazySingleton<_i43.BreweryRepository>(() => _i43.BreweryRepository(
-        get<_i40.BreweryService>(),
+        get<_i37.BreweryService>(),
         get<_i19.BreweryDaoStorage>(),
       ));
   gh.factory<_i44.BeerAddViewModel>(() => _i44.BeerAddViewModel(

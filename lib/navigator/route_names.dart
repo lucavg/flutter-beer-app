@@ -9,7 +9,6 @@ class RouteNames {
   static const licenseScreen = '/license';
   static const loginScreen = '/login';
   static const beerAddScreen = '/beer_add';
-  static const beerDetailScreen = '/beer_detail';
-
   static const firstScreen = homeScreen;
+  static const beerDetailScreen = '/beer_detail';
 }

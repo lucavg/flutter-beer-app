@@ -30,40 +30,41 @@ class BeerItem extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        beerWithBrewery.beer.name,
-                        style: theme.coreTextTheme.bodyBig,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: ratingList
-                            .map(
-                              (i) => i < beerWithBrewery.beer.rating
-                                  ? const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 24,
-                                    )
-                                  : const Icon(
-                                      Icons.star,
-                                      color: Colors.grey,
-                                      size: 24,
-                                    ),
-                            )
-                            .toList(),
-                      ),
-                      Text(
-                        beerWithBrewery.brewery!.name,
-                        style: theme.coreTextTheme.bodyNormal,
-                      ),
-                    ],
-                  )),
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      beerWithBrewery.beer.name,
+                      style: theme.coreTextTheme.bodyBig,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: ratingList
+                          .map(
+                            (i) => i < beerWithBrewery.beer.rating
+                                ? const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 24,
+                                  )
+                                : const Icon(
+                                    Icons.star,
+                                    color: Colors.grey,
+                                    size: 24,
+                                  ),
+                          )
+                          .toList(),
+                    ),
+                    Text(
+                      beerWithBrewery.brewery!.name,
+                      style: theme.coreTextTheme.bodyNormal,
+                    ),
+                  ],
+                ),
+              ),
             ),
             GestureDetector(
               onTap: () {
