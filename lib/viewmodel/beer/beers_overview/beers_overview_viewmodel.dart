@@ -27,29 +27,17 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   String? get errorKey => _errorKey;
 
   Stream<List<BeerWithBrewery>> get dataBeerStream => _beerStream;
+
   Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
 
-  BeersOverViewViewModel(this._beerRepository, this._breweryRepository, this._navigator, this._sharedPreferences);
+  MainNavigator get navigator => _navigator;
+
+  BeersOverViewViewModel(this._beerRepository, this._breweryRepository,
+      this._navigator, this._sharedPreferences);
 
   Future<void> init() async {
     _beerStream = _beerRepository.getAllBeers();
-    try {
-      _isLoading = true;
-      _errorKey = null;
-      notifyListeners();
-      await _breweryRepository.fetchBreweries();
-      await _beerRepository.fetchBeers();
-    } catch (e, stack) {
-      logger.error('failed to get beers', error: e, trace: stack);
-      if (e is LocalizedError) {
-        _errorKey = e.getLocalizedKey();
-      } else {
-        _errorKey = LocalizationKeys.errorGeneral;
-      }
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+    _breweryStream = _breweryRepository.getAllBreweries();
   }
 
   Future<void> onDownloadClicked() async {
@@ -79,7 +67,8 @@ class BeersOverViewViewModel with ChangeNotifierEx {
 
   void onAddClicked() => _navigator.goToAddBeer();
 
-  void onLogoutClicked() => {_sharedPreferences.clear(), _navigator.goToSplash()};
+  void onLogoutClicked() =>
+      {_sharedPreferences.clear(), _navigator.goToSplash()};
 
   void onBeerClicked(BeerWithBrewery beer) => _navigator.goToBeerDetail(beer);
 }

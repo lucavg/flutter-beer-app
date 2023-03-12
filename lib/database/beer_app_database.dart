@@ -1,18 +1,15 @@
 import 'package:beer_app/model/database/beer/db_beer_table.dart';
-import 'package:beer_app/model/database/beer/db_brewery_table.dart';
+import 'package:beer_app/model/database/brewery/db_brewery_table.dart';
 import 'package:drift/drift.dart';
-
 
 part 'beer_app_database.g.dart';
 
-@DriftDatabase(tables: [
-  DbBeerTable,
-  DbBreweryTable
-])
+@DriftDatabase(tables: [DbBeerTable, DbBreweryTable])
 class BeerAppDatabase extends _$BeerAppDatabase {
   BeerAppDatabase(super.db);
 
-  BeerAppDatabase.connect(DatabaseConnection connection) : super.connect(connection);
+  BeerAppDatabase.connect(DatabaseConnection connection)
+      : super.connect(connection);
 
   @override
   int get schemaVersion => 1;

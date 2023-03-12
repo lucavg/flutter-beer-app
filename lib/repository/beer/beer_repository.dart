@@ -7,11 +7,17 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 abstract class BeerRepository {
   @factoryMethod
-  factory BeerRepository(BeerService beerService, BeerDaoStorage beerDaoStorage) = _BeerRepository;
+  factory BeerRepository(
+      BeerService beerService, BeerDaoStorage beerDaoStorage) = _BeerRepository;
 
   Stream<List<BeerWithBrewery>> getAllBeers();
+
   Future<List<Beer>> fetchBeers();
+
   Future<void> saveBeer(String name);
+
+  Future<void> saveBeerWithValue(Beer beer);
+
   Future<void> setBeerRating({required String id, required int rating});
 }
 
@@ -37,6 +43,11 @@ class _BeerRepository implements BeerRepository {
   @override
   Future<void> saveBeer(String name) async {
     await _beerDao.createBeer(name);
+  }
+
+  @override
+  Future<void> saveBeerWithValue(Beer beer) async {
+    await _beerDao.createBeerWithValue(beer);
   }
 
   @override

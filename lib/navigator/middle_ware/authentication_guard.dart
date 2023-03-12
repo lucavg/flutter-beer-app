@@ -11,6 +11,8 @@ class AuthenticationGuard extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     if (FlavorConfig.isInTest()) return null;
-    return authStorage.isLoggedIn ? null : const RouteSettings(name: RouteNames.loginScreen);
+    return authStorage.isLoggedIn
+        ? null
+        : const RouteSettings(name: RouteNames.loginScreen);
   }
 }

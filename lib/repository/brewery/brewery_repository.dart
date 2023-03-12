@@ -11,6 +11,7 @@ abstract class BreweryRepository {
   Stream<List<Brewery>> getAllBreweries();
   Future<List<Brewery>> fetchBreweries();
   Future<void> saveBrewery(String id, String name);
+  Future<void> saveBreweryWithValue(Brewery brewery);
 }
 
 class _BreweryRepository implements BreweryRepository {
@@ -35,5 +36,10 @@ class _BreweryRepository implements BreweryRepository {
   @override
   Future<void> saveBrewery(String id, String name) async {
     await _breweryDao.createBrewery(id, name);
+  }
+
+  @override
+  Future<void> saveBreweryWithValue(Brewery brewery) async {
+    await _breweryDao.createBreweryWithValue(brewery);
   }
 }

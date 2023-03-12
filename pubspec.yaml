@@ -20,16 +20,19 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   flutter_localizations:
     sdk: flutter
+  flutter_map: ^3.1.0
   flutter_secure_storage: ^8.0.0
   flutter_secure_storage_web: ^1.0.2
   flutter_svg: ^1.1.5
   flutter_web_plugins:
     sdk: flutter
+  geocoding: ^2.0.5
   get: ^4.6.5
   get_it: ^7.2.0
   icapps_architecture: ^0.7.4
   injectable: ^1.5.3
   json_annotation: ^4.7.0
+  latlong2: ^0.8.1
   niddler_dart: ^1.5.2
   path: ^1.8.2
   path_provider: ^2.0.11

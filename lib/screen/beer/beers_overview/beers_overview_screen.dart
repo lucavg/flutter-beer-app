@@ -3,7 +3,7 @@ import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/styles/theme_assets.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/util/keys.dart';
-import 'package:beer_app/viewmodel/beer/beer_overview/beers_overview_viewmodel.dart';
+import 'package:beer_app/viewmodel/beer/beers_overview/beers_overview_viewmodel.dart';
 import 'package:beer_app/widget/beer/beer_item.dart';
 import 'package:beer_app/widget/general/action/action_item.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
@@ -57,9 +57,10 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
           ),
           body: Builder(
             builder: (context) {
-              if (viewModel.isLoading)
+              if (viewModel.isLoading) {
                 return Center(
                     child: BeerAppProgressIndicator(dark: theme.isLightTheme));
+              }
               if (errorKey != null) {
                 return Center(
                   child: Text(
@@ -75,11 +76,14 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                   stream: viewModel.dataBeerStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
-                    if (data == null)
+                    if (data == null) {
                       return const Center(
-                          child: Padding(
-                              padding: EdgeInsets.all(ThemeDimens.padding32),
-                              child: Text("List is empty")));
+                        child: Padding(
+                          padding: EdgeInsets.all(ThemeDimens.padding32),
+                          child: Text("List is empty"),
+                        ),
+                      );
+                    }
                     if (data.isEmpty) {
                       return Center(
                         child: Padding(
@@ -100,7 +104,10 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                             onTap: () {
                               viewModel.onBeerClicked(item);
                             },
-                            child: BeerItem(beerWithBrewery: item));
+                            child: BeerItem(
+                              beerWithBrewery: item,
+                              navigator: viewModel.navigator,
+                            ));
                       },
                       separatorBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.symmetric(
