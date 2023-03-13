@@ -74,8 +74,8 @@ class BeerItem extends StatelessWidget {
                 tag: beerWithBrewery.beer.id,
                 transitionOnUserGestures: true,
                 child: Image.network(
-                  beerWithBrewery.beer.imageUrl != ""
-                      ? beerWithBrewery.beer.imageUrl
+                  beerWithBrewery.beer.thumbImageUrl != "" || beerWithBrewery.beer.thumbImageUrl.isNotEmpty
+                      ? beerWithBrewery.beer.thumbImageUrl
                       : "https://freesvg.org/img/1515941353.png",
                   height: 120,
                   width: 120,

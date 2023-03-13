@@ -31,7 +31,7 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
         return Scaffold(
           backgroundColor: theme.colorsTheme.background,
           appBar: AppBar(
-            title: Text(localization.todoTitle),
+            title: const Text("All beers"),
             systemOverlayStyle: SystemUiOverlayStyle.light,
             centerTitle: context.isIOSTheme,
             backgroundColor: theme.colorsTheme.primary,

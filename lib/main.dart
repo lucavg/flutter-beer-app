@@ -6,6 +6,8 @@ import 'package:beer_app/util/env/flavor_config.dart';
 import 'package:beer_app/util/inspector/database_inspector.dart';
 import 'package:beer_app/util/inspector/local_storage_inspector.dart';
 import 'package:beer_app/util/inspector/niddler.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -15,6 +17,9 @@ Future<void> main() async {
       baseUrl: 'https://beers.icapps-projects.com/api/v1/',
       logNetworkInfo: true,
       showFullErrorMessages: true,
+    );
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
     );
     FlavorConfig(
       flavor: Flavor.dev,
