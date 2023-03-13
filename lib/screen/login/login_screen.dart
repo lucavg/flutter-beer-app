@@ -30,8 +30,7 @@ class LoginScreen extends StatelessWidget {
                     //TODO: Add loading state, prevent users from pressing login while loading
                     Image.network(
                       "https://freesvg.org/img/1515941353.png",
-                      height: MediaQuery.of(context).size.height *
-                          0.4, // adjust image height
+                      height: MediaQuery.of(context).size.height * 0.4,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     // add spacing

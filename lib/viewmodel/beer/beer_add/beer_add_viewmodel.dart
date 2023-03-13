@@ -4,6 +4,7 @@ import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/repository/brewery/brewery_repository.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
 
@@ -12,14 +13,13 @@ class BeerAddViewModel with ChangeNotifierEx {
   final BeerRepository _beerRepository;
   final BreweryRepository _breweryRepository;
   final MainNavigator _navigator;
-  Beer _beer =
-      const Beer(id: "", name: "", rating: 0, thumbImageUrl: "", imageUrl: "");
+  final storage = FirebaseStorage.instance.ref();
+
   Brewery? _selectedBrewery;
   String? _beerName;
   int? _beerRating;
   String? _beerThumbImageUrl;
   String? _beerImageUrl;
-  String? _breweryId;
   String? _breweryName;
   String? _breweryAddress;
   String? _breweryCity;
@@ -32,8 +32,6 @@ class BeerAddViewModel with ChangeNotifierEx {
   final Random _rnd = Random();
 
   Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
-
-  String get breweryId => _breweryId.toString();
 
   Brewery? get selectedBrewery => _selectedBrewery;
 
@@ -79,12 +77,6 @@ class BeerAddViewModel with ChangeNotifierEx {
     notifyListeners();
   }
 
-  void onBreweryIdChanged(String breweryId) {
-    _breweryId = breweryId.trim();
-    // onBreweryChanged(breweryId);
-    notifyListeners();
-  }
-
   void onBreweryNameChanged(String breweryName) {
     _breweryName = breweryName.trim();
     notifyListeners();
@@ -101,13 +93,38 @@ class BeerAddViewModel with ChangeNotifierEx {
   }
 
   void onBreweryCountryChanged(String breweryCountry) {
-    _breweryName = breweryCountry.trim();
+    _breweryCountry = breweryCountry.trim();
     notifyListeners();
+  }
+
+  void resetForm() {
+    _breweryName = "";
+    _breweryCountry = "";
+    _breweryCity = "";
+    _breweryAddress = "";
+
+    _beerName = "";
+    _beerImageUrl = "";
+    _beerThumbImageUrl = "";
+    _beerRating = 0;
   }
 
   void onBackClicked() => _navigator.goBack<void>();
 
-  Future<void> onSaveClicked() async {
+  Future<void> onBreweryExistsSaveClicked() async {
+    final beerImageRef = storage.child("${_beerName}_image");
+    final Beer beer = Beer(
+        id: getRandomString(10),
+        name: _beerName.toString(),
+        rating: _beerRating?.toInt() ?? 0,
+        thumbImageUrl: _beerThumbImageUrl.toString(),
+        imageUrl: _beerImageUrl.toString(),
+        brewery: _selectedBrewery);
+    await _beerRepository.saveBeerWithValue(beer);
+    _navigator.goBack(result: true);
+  }
+
+  Future<void> onNewBrewerySavedClicked() async {
     final Brewery brewery = Brewery(
         id: getRandomString(10),
         name: _breweryName.toString(),
@@ -115,17 +132,23 @@ class BeerAddViewModel with ChangeNotifierEx {
         city: _breweryCity.toString(),
         country: _breweryCountry.toString());
     await _breweryRepository.saveBreweryWithValue(brewery);
-    _beer = Beer(
+    final Beer beer = Beer(
         id: getRandomString(10),
         name: _beerName.toString(),
         rating: _beerRating?.toInt() ?? 0,
         thumbImageUrl: _beerThumbImageUrl.toString(),
         imageUrl: _beerImageUrl.toString(),
         brewery: brewery);
-    await _beerRepository.saveBeerWithValue(_beer);
+    await _beerRepository.saveBeerWithValue(beer);
     _navigator.goBack(result: true);
   }
 
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String getRandomString(int length) => String.fromCharCodes(
+        Iterable.generate(
+          length,
+          (_) => _chars.codeUnitAt(
+            _rnd.nextInt(_chars.length),
+          ),
+        ),
+      );
 }

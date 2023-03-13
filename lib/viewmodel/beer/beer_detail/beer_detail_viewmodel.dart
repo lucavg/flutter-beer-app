@@ -60,8 +60,6 @@ class BeerDetailViewModel with ChangeNotifierEx {
       }
     } finally {
       _isLoading = false;
-      logger.error(_lat.toString());
-      logger.error(_lng.toString());
       notifyListeners();
     }
   }

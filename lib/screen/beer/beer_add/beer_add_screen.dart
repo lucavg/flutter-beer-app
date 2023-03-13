@@ -11,7 +11,6 @@ import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/widget/general/theme_widget.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
-import 'package:get/get.dart';
 import 'package:scroll_when_needed/scroll_when_needed.dart';
 
 class BeerAddScreen extends StatefulWidget {
@@ -29,95 +28,181 @@ class BeerAddScreenState extends State<BeerAddScreen> {
   Widget build(BuildContext context) {
     return ThemeWidget(
       child: ProviderWidget<BeerAddViewModel>(
-        create: () => getIt()..init(),
+        create: () =>
+        getIt()
+          ..init(),
         childBuilderWithViewModel: (context, viewModel, theme, localization) =>
             ThemeWidget(
-          child: DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              backgroundColor: theme.colorsTheme.background,
-              appBar: AppBar(
-                systemOverlayStyle: SystemUiOverlayStyle.light,
-                leading: BeerAppBackButton.light(
-                  onClick: viewModel.onBackClicked,
-                ),
-                title: const Text("Add a new beer!"),
-                backgroundColor: theme.colorsTheme.primary,
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.plus_one)),
-                    Tab(icon: Icon(Icons.cloud)),
-                  ],
-                ),
-              ),
-              body: ScrollConfiguration(
-                behavior: ScrollWhenNeededBehavior(),
-                child: Scrollbar(
-                  child: TabBarView(
-                    children: [
-                      ListView(
-                        physics: ScrollWhenNeededPhysics(
-                            targetPlatform: Theme.of(context).platform),
-                        padding: const EdgeInsets.all(ThemeDimens.padding16),
+              child: DefaultTabController(
+                length: 2,
+                child: Scaffold(
+                  backgroundColor: theme.colorsTheme.background,
+                  appBar: AppBar(
+                    systemOverlayStyle: SystemUiOverlayStyle.light,
+                    leading: BeerAppBackButton.light(
+                      onClick: viewModel.onBackClicked,
+                    ),
+                    title: const Text("Add a new beer!"),
+                    backgroundColor: theme.colorsTheme.primary,
+                    bottom: TabBar(
+                      onTap: (index) => viewModel.resetForm(),
+                      tabs: const [
+                        Tab(icon: Icon(Icons.plus_one)),
+                        Tab(icon: Icon(Icons.cloud)),
+                      ],
+                    ),
+                  ),
+                  body: ScrollConfiguration(
+                    behavior: ScrollWhenNeededBehavior(),
+                    child: Scrollbar(
+                      child: TabBarView(
                         children: [
-                          BeerAppButton(
-                            text: localization.generalLabelSave,
-                            isEnabled: viewModel.isSaveEnabled,
-                            onClick: viewModel.onSaveClicked,
+                          ListView(
+                            physics: ScrollWhenNeededPhysics(
+                                targetPlatform: Theme
+                                    .of(context)
+                                    .platform),
+                            padding: const EdgeInsets.all(ThemeDimens
+                                .padding16),
+                            children: [
+                              Text(
+                                "Beer data:",
+                                textAlign: TextAlign.center,
+                                style: theme.coreTextTheme.bodyNormal,
+                              ),
+                              BeerAppInputField(
+                                  hint: "Beer name",
+                                  onChanged: (value) =>
+                                      viewModel.onNameChanged(value)),
+                              BeerAppInputField(
+                                  hint: "Beer rating",
+                                  onChanged: (value) =>
+                                      viewModel.onRatingChanged(value)),
+                              BeerAppInputField(
+                                  hint: "ImageUrl",
+                                  onChanged: (value) =>
+                                      viewModel.onImageUrlChanged(value)),
+                              BeerAppInputField(
+                                  hint: "ThumbImageUrl",
+                                  onChanged: (value) =>
+                                      viewModel.onThumbImageUrlChanged(value)),
+                              const Divider(
+                                height: 16,
+                              ),
+                              Text(
+                                "Brewery data:",
+                                textAlign: TextAlign.center,
+                                style: theme.coreTextTheme.bodyNormal,
+                              ),
+                              BeerAppInputField(
+                                  hint: "Brewery name",
+                                  onChanged: (value) =>
+                                      viewModel.onBreweryNameChanged(value)),
+                              BeerAppInputField(
+                                  hint: "Brewery Address",
+                                  onChanged: (value) =>
+                                      viewModel.onBreweryAddressChanged(value)),
+                              BeerAppInputField(
+                                  hint: "Brewery city",
+                                  onChanged: (value) =>
+                                      viewModel.onBreweryCityChanged(value)),
+                              BeerAppInputField(
+                                  hint: "Brewery country",
+                                  onChanged: (value) =>
+                                      viewModel.onBreweryCountryChanged(value)),
+                              const Divider(height: 16),
+                              BeerAppButton(
+                                text: localization.generalLabelSave,
+                                isEnabled: viewModel.isSaveEnabled,
+                                onClick: viewModel.onNewBrewerySavedClicked,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      ListView(
-                        physics: ScrollWhenNeededPhysics(
-                            targetPlatform: Theme.of(context).platform),
-                        padding: const EdgeInsets.all(ThemeDimens.padding16),
-                        children: [
-                          StreamBuilder<List<Brewery>>(
-                            stream: viewModel.dataBreweryStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
+                          ListView(
+                            physics: ScrollWhenNeededPhysics(
+                                targetPlatform: Theme
+                                    .of(context)
+                                    .platform),
+                            padding: const EdgeInsets.all(ThemeDimens
+                                .padding16),
+                            children: [
+                              Text(
+                                "Beer data:",
+                                textAlign: TextAlign.center,
+                                style: theme.coreTextTheme.bodyNormal,
+                              ),
+                              BeerAppInputField(
+                                  hint: "Beer name",
+                                  onChanged: (value) =>
+                                      viewModel.onNameChanged(value)),
+                              BeerAppInputField(
+                                  hint: "Beer rating",
+                                  onChanged: (value) =>
+                                      viewModel.onRatingChanged(value)),
+                              BeerAppInputField(
+                                  hint: "ImageUrl",
+                                  onChanged: (value) =>
+                                      viewModel.onImageUrlChanged(value)),
+                              BeerAppInputField(
+                                  hint: "ThumbImageUrl",
+                                  onChanged: (value) =>
+                                      viewModel.onThumbImageUrlChanged(value)),
+                              const Divider(
+                                height: 16,
+                              ),
+                              Text(
+                                "Brewery data:",
+                                textAlign: TextAlign.center,
+                                style: theme.coreTextTheme.bodyNormal,
+                              ),
+                              StreamBuilder<List<Brewery>>(
+                                stream: viewModel.dataBreweryStream,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  }
 
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return const BeerAppProgressIndicator(
-                                      dark: true);
-                                default:
-                                  return DropdownButton<Brewery>(
-                                    hint: Text(viewModel.selectedBrewery == null
-                                        ? "Select a brewery"
-                                        : viewModel.selectedBrewery!.name),
-                                    items: snapshot.data?.map(
-                                      (Brewery brewery) {
-                                        return DropdownMenuItem<Brewery>(
-                                          value: brewery,
-                                          child: Text(brewery.name),
-                                        );
-                                      },
-                                    ).toList(),
-                                    onChanged: (Brewery? selectedBrewery) {
-                                      viewModel.selectedBrewery =
-                                          selectedBrewery;
-                                    },
-                                  );
-                              }
-                            },
-                          ),
-                          BeerAppButton(
-                            text: localization.generalLabelSave,
-                            isEnabled: viewModel.isSaveEnabled,
-                            onClick: viewModel.onSaveClicked,
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting:
+                                      return const BeerAppProgressIndicator(
+                                          dark: true);
+                                    default:
+                                      return DropdownButton<Brewery>(
+                                        hint: Text(
+                                            viewModel.selectedBrewery == null
+                                                ? "Select a brewery"
+                                                : viewModel.selectedBrewery!
+                                                .name),
+                                        items: snapshot.data?.map(
+                                              (Brewery brewery) {
+                                            return DropdownMenuItem<Brewery>(
+                                              value: brewery,
+                                              child: Text(brewery.name),
+                                            );
+                                          },
+                                        ).toList(),
+                                        onChanged: (Brewery? selectedBrewery) {
+                                          viewModel.selectedBrewery =
+                                              selectedBrewery;
+                                        },
+                                      );
+                                  }
+                                },
+                              ),
+                              BeerAppButton(
+                                text: localization.generalLabelSave,
+                                isEnabled: viewModel.isSaveEnabled,
+                                onClick: viewModel.onBreweryExistsSaveClicked,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
       ),
     );
   }

@@ -89,12 +89,11 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                         child: Hero(
                           tag: beer.id,
                           transitionOnUserGestures: true,
-                          child: CircleAvatar(
-                            radius: 100,
-                            backgroundImage: viewModel.hasImage
-                                ? NetworkImage(beer.imageUrl)
-                                : const NetworkImage(
-                                    "https://freesvg.org/img/1515941353.png"),
+                          child: Image.network(
+                            viewModel.hasImage
+                                ? beer.imageUrl
+                                : "https://freesvg.org/img/1515941353.png",
+                            height: MediaQuery.of(context).size.height * 0.25,
                           ),
                         ),
                       ),

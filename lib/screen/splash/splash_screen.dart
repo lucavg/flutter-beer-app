@@ -21,12 +21,18 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return ProviderWidget<SplashViewModel>(
       create: () => getIt()..init(),
-      consumerWithThemeAndLocalization: (context, viewModel, child, theme, localization) => StatusBar.animated(
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) =>
+              StatusBar.animated(
         isDarkStyle: theme.isDarkTheme,
         child: Scaffold(
           backgroundColor: theme.colorsTheme.primary,
-          body: const Center(
-            child: BeerAppProgressIndicator.light(),
+          body: Center(
+            child: Image.network(
+              "https://freesvg.org/img/1515941353.png",
+              height: MediaQuery.of(context).size.height *
+                  0.4, // adjust image height
+            ),
           ),
         ),
       ),
