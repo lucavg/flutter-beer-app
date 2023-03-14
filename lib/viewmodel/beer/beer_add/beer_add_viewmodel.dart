@@ -8,11 +8,8 @@ import 'package:beer_app/repository/brewery/brewery_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
-
-import 'package:path/path.dart';
 
 @injectable
 class BeerAddViewModel with ChangeNotifierEx {
@@ -33,17 +30,14 @@ class BeerAddViewModel with ChangeNotifierEx {
   final TextEditingController beerNameController = TextEditingController();
   final TextEditingController beerRatingController = TextEditingController();
   final TextEditingController breweryNameController = TextEditingController();
-  final TextEditingController breweryAddressController =
-      TextEditingController();
+  final TextEditingController breweryAddressController = TextEditingController();
   final TextEditingController breweryCityController = TextEditingController();
-  final TextEditingController breweryCountryController =
-      TextEditingController();
+  final TextEditingController breweryCountryController = TextEditingController();
 
   final String _dropdownHint = "Select a brewery";
 
   late Stream<List<Brewery>> _breweryStream;
-  static const _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
 
   Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
@@ -134,33 +128,17 @@ class BeerAddViewModel with ChangeNotifierEx {
 
   Future<void> onBreweryExistsSaveClicked() async {
     final String imageUrl = await uploadFile(_beerImage!);
-    final Beer beer = Beer(
-        id: getRandomString(10),
-        name: _beerName.toString(),
-        rating: _beerRating?.toInt() ?? 0,
-        thumbImageUrl: imageUrl.toString(),
-        imageUrl: imageUrl.toString(),
-        brewery: _selectedBrewery);
+    final Beer beer =
+        Beer(id: getRandomString(10), name: _beerName.toString(), rating: _beerRating.toInt(), thumbImageUrl: imageUrl.toString(), imageUrl: imageUrl.toString(), brewery: _selectedBrewery);
     await _beerRepository.saveBeerWithValue(beer);
     _navigator.goBack(result: true);
   }
 
   Future<void> onNewBrewerySavedClicked() async {
     final String imageUrl = await uploadFile(_beerImage!);
-    final Brewery brewery = Brewery(
-        id: getRandomString(10),
-        name: _breweryName.toString(),
-        address: _breweryAddress.toString(),
-        city: _breweryCity.toString(),
-        country: _breweryCountry.toString());
+    final Brewery brewery = Brewery(id: getRandomString(10), name: _breweryName.toString(), address: _breweryAddress.toString(), city: _breweryCity.toString(), country: _breweryCountry.toString());
     await _breweryRepository.saveBreweryWithValue(brewery);
-    final Beer beer = Beer(
-        id: getRandomString(10),
-        name: _beerName.toString(),
-        rating: _beerRating?.toInt() ?? 0,
-        thumbImageUrl: imageUrl,
-        imageUrl: imageUrl,
-        brewery: brewery);
+    final Beer beer = Beer(id: getRandomString(10), name: _beerName.toString(), rating: _beerRating.toInt(), thumbImageUrl: imageUrl, imageUrl: imageUrl, brewery: brewery);
     await _beerRepository.saveBeerWithValue(beer);
     _navigator.goBack(result: true);
   }

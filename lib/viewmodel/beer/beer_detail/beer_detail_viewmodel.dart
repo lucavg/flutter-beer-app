@@ -2,7 +2,6 @@ import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

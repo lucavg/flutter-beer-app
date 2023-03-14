@@ -2,7 +2,6 @@ import 'package:beer_app/database/beer_app_database.dart';
 import 'package:beer_app/model/database/brewery/db_brewery_table.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:drift/drift.dart';
-import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
 part 'brewery_dao_storage.g.dart';

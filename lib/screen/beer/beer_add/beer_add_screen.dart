@@ -8,7 +8,6 @@ import 'package:beer_app/widget/general/styled/beer_app_back_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_input_field.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:beer_app/di/injectable.dart';
@@ -16,9 +15,6 @@ import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/widget/general/theme_widget.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
-import 'package:icapps_architecture/icapps_architecture.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:scroll_when_needed/scroll_when_needed.dart';
 
 class BeerAddScreen extends StatefulWidget {
