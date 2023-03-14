@@ -4,7 +4,7 @@ import 'package:beer_app/widget/provider/data_provider_widget.dart';
 import 'package:flutter/material.dart';
 
 class BreweryItem extends StatelessWidget {
-  final Brewery brewery;
+  final Brewery? brewery;
 
   const BreweryItem({
     required this.brewery,
@@ -14,8 +14,6 @@ class BreweryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataProviderWidget(
-      // TODO: move onTap to this widget
-      // TODO: research difference between ValueChanged and VoidCallback
       childBuilderTheme: (context, theme) => Container(
         color: Colors.transparent,
         padding: const EdgeInsets.symmetric(
@@ -29,28 +27,25 @@ class BreweryItem extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      brewery.name,
-                      style: theme.coreTextTheme.bodyBig,
+                      brewery!.name,
+                      style: theme.coreTextTheme.titleNormal,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          brewery.address,
-                          style: theme.coreTextTheme.bodyBig,
-                        ),
-                        const Text(" "),
-                        Text(
-                          brewery.city,
-                          style: theme.coreTextTheme.bodyBig,
+                          "${brewery!.address} ${brewery!.city}",
+                          style: theme.coreTextTheme.bodyNormal,
                         ),
                       ],
                     ),
                     Text(
-                      brewery.country,
-                      style: theme.coreTextTheme.bodyBig,
+                      brewery!.country,
+                      style: theme.coreTextTheme.bodyNormal,
                     ),
                   ],
                 ),

@@ -3,7 +3,6 @@ import 'package:beer_app/di/injectable.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/viewmodel/splash/splash_viewmodel.dart';
 import 'package:beer_app/widget/general/status_bar.dart';
-import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
 
 class SplashScreen extends StatefulWidget {

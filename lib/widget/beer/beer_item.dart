@@ -30,14 +30,14 @@ class BeerItem extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       beerWithBrewery.beer.name,
-                      style: theme.coreTextTheme.bodyBig,
+                      style: theme.coreTextTheme.titleNormal,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -67,14 +67,12 @@ class BeerItem extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                navigator.goToBeerDetail(beerWithBrewery);
-              },
+              onTap: () => navigator.goToBeerDetail(beerWithBrewery),
               child: Hero(
                 tag: beerWithBrewery.beer.id,
                 transitionOnUserGestures: true,
                 child: Image.network(
-                  beerWithBrewery.beer.thumbImageUrl != "" || beerWithBrewery.beer.thumbImageUrl.isNotEmpty
+                  beerWithBrewery.beer.thumbImageUrl.isNotEmpty
                       ? beerWithBrewery.beer.thumbImageUrl
                       : "https://freesvg.org/img/1515941353.png",
                   height: 120,

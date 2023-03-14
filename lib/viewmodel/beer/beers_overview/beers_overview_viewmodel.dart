@@ -1,20 +1,21 @@
 import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
+import 'package:beer_app/model/webservice/beer/sort_option.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/repository/brewery/brewery_repository.dart';
 import 'package:beer_app/styles/theme_data.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
+import 'package:beer_app/widget/beer/beer_grid_item.dart';
 import 'package:beer_app/widget/beer/beer_item.dart';
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@injectable // This annotation is used by the dependency injection library, it tells the library that this class can be injected, but isn't a singleton.
+@injectable
 class BeersOverViewViewModel with ChangeNotifierEx {
-  // ChangeNotifierEx is a custom class that extends ChangeNotifier. A ChangeNotifier is a class that notifies listeners when a value changes. This means that the UI will be rebuild when we call `notifyListeners();`.
   final BeerRepository _beerRepository;
   final BreweryRepository _breweryRepository;
   final MainNavigator _navigator;
@@ -23,8 +24,10 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   late Stream<List<BeerWithBrewery>> _beerStream;
   late Stream<List<Brewery>> _breweryStream;
 
+  SortOption _sortOption = SortOption.NAMEASCENDING;
   var _isLoading = false;
   var _isGridView = false;
+
   String? _errorKey;
 
   bool get isLoading => _isLoading;
@@ -38,6 +41,8 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   Stream<List<Brewery>> get dataBreweryStream => _breweryStream;
 
   MainNavigator get navigator => _navigator;
+
+  SortOption get sortOption => _sortOption;
 
   BeersOverViewViewModel(this._beerRepository, this._breweryRepository,
       this._navigator, this._sharedPreferences);
@@ -84,11 +89,32 @@ class BeersOverViewViewModel with ChangeNotifierEx {
     notifyListeners();
   }
 
+  void onSortingOptionChanged(SortOption sortOption) {
+    _sortOption = sortOption;
+    notifyListeners();
+  }
+
+  List<BeerWithBrewery?> _getSortedBeers(List<BeerWithBrewery?> beers) {
+    switch (_sortOption) {
+      case SortOption.NAMEASCENDING:
+        beers.sort((a, b) => a!.beer.name.compareTo(b!.beer.name));
+        break;
+      case SortOption.RATINGDESCENDING:
+        beers.sort((a, b) => b!.beer.rating.compareTo(a!.beer.rating));
+        break;
+      case SortOption.RATINGASCENDING:
+        beers.sort((a, b) => a!.beer.rating.compareTo(b!.beer.rating));
+        break;
+    }
+    return beers;
+  }
+
   Widget buildListView(List<BeerWithBrewery?> data, MainNavigator navigator,
       BeerAppTheme theme) {
+    final List<BeerWithBrewery?> sortedBeers = _getSortedBeers(data);
     return ListView.separated(
       shrinkWrap: true,
-      itemCount: data.length,
+      itemCount: sortedBeers.length,
       itemBuilder: (context, index) {
         final item = data[index];
         return BeerItem(
@@ -107,22 +133,19 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   }
 
   Widget buildGridView(List<BeerWithBrewery?> data, MainNavigator navigator) {
+    final List<BeerWithBrewery?> sortedBeers = _getSortedBeers(data);
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
-      itemCount: data.length,
+      itemCount: sortedBeers.length,
       itemBuilder: (context, index) {
-        final item = data[index];
-        return Card(
-          child: Center(
-            child: GestureDetector(
-              onTap: () => navigator.goToBeerDetail(item),
-              child: Image.network(item!.beer.imageUrl),
-            ),
-          ),
+        final item = sortedBeers[index];
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: BeerGridItem(beerWithBrewery: item, navigator: navigator),
         );
       },
     );

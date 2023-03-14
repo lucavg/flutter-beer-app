@@ -6,6 +6,7 @@ import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/viewmodel/beer/beer_detail/beer_detail_viewmodel.dart';
 import 'package:beer_app/widget/beer/rating_bar_form_field.dart';
+import 'package:beer_app/widget/brewery/brewery_item.dart';
 import 'package:beer_app/widget/general/styled/beer_app_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
@@ -32,22 +33,23 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
         final Beer beer = viewModel.beerWithBrewery.beer;
-        final Brewery brewery = Brewery(
-            id: viewModel.beerWithBrewery.brewery!.id.isNotEmpty
-                ? viewModel.beerWithBrewery.brewery!.id
-                : "No brewery linked yet!",
-            name: viewModel.beerWithBrewery.brewery!.name.isNotEmpty
-                ? viewModel.beerWithBrewery.brewery!.name
-                : "",
-            address: viewModel.beerWithBrewery.brewery!.address.isNotEmpty
-                ? viewModel.beerWithBrewery.brewery!.address
-                : "",
-            city: viewModel.beerWithBrewery.brewery!.city.isNotEmpty
-                ? viewModel.beerWithBrewery.brewery!.city
-                : "",
-            country: viewModel.beerWithBrewery.brewery!.country.isNotEmpty
-                ? viewModel.beerWithBrewery.brewery!.country
-                : "");
+        // final Brewery brewery = Brewery(
+        //     id: viewModel.beerWithBrewery.brewery!.id.isNotEmpty
+        //         ? viewModel.beerWithBrewery.brewery!.id
+        //         : "No brewery linked yet!",
+        //     name: viewModel.beerWithBrewery.brewery!.name.isNotEmpty
+        //         ? viewModel.beerWithBrewery.brewery!.name
+        //         : "",
+        //     address: viewModel.beerWithBrewery.brewery!.address.isNotEmpty
+        //         ? viewModel.beerWithBrewery.brewery!.address
+        //         : "",
+        //     city: viewModel.beerWithBrewery.brewery!.city.isNotEmpty
+        //         ? viewModel.beerWithBrewery.brewery!.city
+        //         : "",
+        //     country: viewModel.beerWithBrewery.brewery!.country.isNotEmpty
+        //         ? viewModel.beerWithBrewery.brewery!.country
+        //         : "");
+        final Brewery? brewery = viewModel.beerWithBrewery.brewery;
         final errorKey = viewModel.errorKey;
         return Scaffold(
           backgroundColor: theme.colorsTheme.background,
@@ -112,16 +114,7 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                               onRatingChanged: (value) =>
                                   viewModel.updateRating(value),
                             ),
-                            Text(
-                              brewery.name,
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            Text(
-                              "${brewery.address} ${brewery.city}",
-                            ),
-                            Text(
-                              brewery.country,
-                            ),
+                            BreweryItem(brewery: brewery)
                             // const Divider(),
                             // SizedBox(
                             //   height: 450,

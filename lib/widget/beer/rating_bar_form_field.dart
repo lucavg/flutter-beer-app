@@ -12,10 +12,10 @@ class RatingBarFormField extends StatefulWidget {
   });
 
   @override
-  _RatingBarFormFieldState createState() => _RatingBarFormFieldState();
+  RatingBarFormFieldState createState() => RatingBarFormFieldState();
 }
 
-class _RatingBarFormFieldState extends State<RatingBarFormField> {
+class RatingBarFormFieldState extends State<RatingBarFormField> {
   int _selectedRating = 0;
 
   @override

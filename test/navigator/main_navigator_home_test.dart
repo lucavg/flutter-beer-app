@@ -11,7 +11,6 @@ void main() {
   setUp(() async => initTestInjectable());
 
   testWidgets('Test main navigator widget go to home', (tester) async {
-    seedTodoListViewModel();
     seedDebugViewModel();
     seedGlobalViewModel();
     seedAuthStorage();

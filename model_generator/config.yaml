@@ -43,3 +43,10 @@ BeerWithBrewery:
   properties:
     beer: Beer
     brewery: Brewery?
+SortOption:
+  path: webservice/beer
+  type: enum
+  properties:
+    nameAscending:
+    ratingDescending:
+    ratingAscending:

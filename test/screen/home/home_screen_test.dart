@@ -7,7 +7,6 @@ import '../../util/test_themes_util.dart';
 import '../../util/test_util.dart';
 import '../debug/debug_screen_test.dart';
 import '../seed.dart';
-import '../todo/todo_list/todo_list_screen_test.dart';
 
 void main() {
   setUp(() async => initTestInjectable());
@@ -16,7 +15,6 @@ void main() {
     TestThemeUtil.setLightMode();
 
     seedGlobalViewModel();
-    seedTodoListViewModel();
     seedDebugViewModel();
     seedLocalStorage();
 
@@ -24,7 +22,6 @@ void main() {
     final testWidget = await TestUtil.loadScreen(tester, sut);
 
     await TestUtil.takeScreenshotForAllSizes(tester, testWidget, 'home_screen_initial_state');
-    verifyTodoListViewModel();
     verifyDebugViewModel();
     verifyGlobalViewModelForDebugScreen();
     verifyGlobalViewModel();
@@ -46,7 +43,6 @@ void main() {
     TestThemeUtil.setDarkMode();
 
     seedGlobalViewModel();
-    seedTodoListViewModel();
     seedDebugViewModel();
     seedLocalStorage();
 
@@ -54,7 +50,6 @@ void main() {
     final testWidget = await TestUtil.loadScreen(tester, sut);
 
     await TestUtil.takeScreenshotForAllSizes(tester, testWidget, 'home_screen_initial_state_darkmode');
-    verifyTodoListViewModel();
     verifyDebugViewModel();
     verifyGlobalViewModelForDebugScreen();
     verifyGlobalViewModel();
