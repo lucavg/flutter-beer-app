@@ -22,6 +22,7 @@ class BeerDetailViewModel with ChangeNotifierEx {
 
   String? _errorKey;
   bool _hasImage = false;
+  bool _isEnlarged = false;
   double _lat = 0.0;
   double _lng = 0.0;
 
@@ -32,6 +33,8 @@ class BeerDetailViewModel with ChangeNotifierEx {
   String? get errorKey => _errorKey;
 
   bool get isLoading => _isLoading;
+
+  bool get isEnlarged => _isEnlarged;
 
   bool get hasImage => _hasImage;
 
@@ -80,6 +83,11 @@ class BeerDetailViewModel with ChangeNotifierEx {
   void updateRating(int newRating) {
     _currentRating = newRating;
     _ratingUpdated = true;
+    notifyListeners();
+  }
+
+  void toggleImageZoom() {
+    _isEnlarged = !_isEnlarged;
     notifyListeners();
   }
 

@@ -107,7 +107,7 @@ class BeerAddScreenState extends State<BeerAddScreen> {
                                 viewModel.onBreweryNameChanged(value),
                           ),
                           BeerAppInputField(
-                            hint: "Brewery Address",
+                            hint: "Brewery address",
                             controller: viewModel.breweryAddressController,
                             onChanged: (value) =>
                                 viewModel.onBreweryAddressChanged(value),
@@ -124,11 +124,13 @@ class BeerAddScreenState extends State<BeerAddScreen> {
                             onChanged: (value) =>
                                 viewModel.onBreweryCountryChanged(value),
                           ),
-                          const Divider(height: 16),
                           BeerAppButton(
                             text: localization.generalLabelSave,
                             isEnabled: viewModel.isSaveEnabled,
-                            onClick: viewModel.onNewBrewerySavedClicked,
+                            onClick: () async => _showToast(
+                              context,
+                              await viewModel.onNewBrewerySavedClicked(),
+                            ),
                           ),
                         ],
                       ),
@@ -208,7 +210,10 @@ class BeerAddScreenState extends State<BeerAddScreen> {
                           BeerAppButton(
                             text: localization.generalLabelSave,
                             isEnabled: viewModel.isSaveEnabled,
-                            onClick: viewModel.onBreweryExistsSaveClicked,
+                            onClick: () async => _showToast(
+                              context,
+                              await viewModel.onBreweryExistsSaveClicked(),
+                            ),
                           ),
                         ],
                       ),
@@ -222,4 +227,16 @@ class BeerAddScreenState extends State<BeerAddScreen> {
       ),
     );
   }
+}
+
+void _showToast(BuildContext context, String message) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+          label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
+      duration: const Duration(seconds: 5),
+    ),
+  );
 }

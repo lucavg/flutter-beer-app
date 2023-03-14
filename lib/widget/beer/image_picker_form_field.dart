@@ -24,7 +24,7 @@ class ImagePickerFormField extends FormField<File> {
                 final imagePicker = ImagePicker();
                 final pickedFile = await imagePicker.pickImage(
                   source: ImageSource.gallery,
-                  imageQuality: 100,
+                  imageQuality: 80,
                   maxWidth: 800,
                   maxHeight: 800,
                 );
