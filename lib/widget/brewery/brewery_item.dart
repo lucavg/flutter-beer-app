@@ -26,34 +26,35 @@ class BreweryItem extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        brewery.name,
-                        style: theme.coreTextTheme.bodyBig,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            brewery.address,
-                            style: theme.coreTextTheme.bodyBig,
-                          ),
-                          const Text(" "),
-                          Text(
-                            brewery.city,
-                            style: theme.coreTextTheme.bodyBig,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        brewery.country,
-                        style: theme.coreTextTheme.bodyBig,
-                      ),
-                    ],
-                  )),
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      brewery.name,
+                      style: theme.coreTextTheme.bodyBig,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          brewery.address,
+                          style: theme.coreTextTheme.bodyBig,
+                        ),
+                        const Text(" "),
+                        Text(
+                          brewery.city,
+                          style: theme.coreTextTheme.bodyBig,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      brewery.country,
+                      style: theme.coreTextTheme.bodyBig,
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

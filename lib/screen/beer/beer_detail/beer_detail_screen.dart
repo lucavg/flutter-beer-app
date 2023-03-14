@@ -5,6 +5,8 @@ import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/viewmodel/beer/beer_detail/beer_detail_viewmodel.dart';
+import 'package:beer_app/widget/beer/rating_bar_form_field.dart';
+import 'package:beer_app/widget/general/styled/beer_app_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +79,6 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                   ),
                 );
               }
-              const List<int> ratingList = [0, 1, 2, 3, 4];
               return Scrollbar(
                 child: Center(
                   child: ListView(
@@ -99,68 +100,57 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(ThemeDimens.padding32),
-                        child: Column(children: [
-                          Text(
-                            beer.name,
-                            style: const TextStyle(fontSize: 22),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: ratingList
-                                .map(
-                                  (i) => i < beer.rating
-                                      ? const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 48,
-                                        )
-                                      : const Icon(
-                                          Icons.star,
-                                          color: Colors.grey,
-                                          size: 48,
-                                        ),
-                                )
-                                .toList(),
-                          ),
-                          Text(
-                            brewery.name,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            "${brewery.address} ${brewery.city}",
-                          ),
-                          Text(
-                            brewery.country,
-                          ),
-                          // const Divider(),
-                          // SizedBox(
-                          //   height: 450,
-                          //   width: 400,
-                          //   child: FlutterMap(
-                          //     options: MapOptions(
-                          //       center: LatLng(51.509364, -0.128928),
-                          //       zoom: 9.2,
-                          //       maxZoom: 22,
-                          //     ),
-                          //     children: [
-                          //       TileLayer(
-                          //         urlTemplate:
-                          //             'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
-                          //         subdomains: const ['a', 'b', 'c'],
-                          //         additionalOptions: const {
-                          //           'style':
-                          //               'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
-                          //           'apiKey':
-                          //               '8f6cd8800b8d436c890dccf078f972a8',
-                          //         },
-                          //         maxZoom: 22,
-                          //         userAgentPackageName: 'com.example.map',
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                        ]),
+                        child: Column(
+                          children: [
+                            Text(
+                              beer.name,
+                              style: const TextStyle(fontSize: 22),
+                            ),
+                            RatingBarFormField(
+                              maxStars: 5,
+                              currentRating: viewModel.currentRating,
+                              onRatingChanged: (value) =>
+                                  viewModel.updateRating(value),
+                            ),
+                            Text(
+                              brewery.name,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            Text(
+                              "${brewery.address} ${brewery.city}",
+                            ),
+                            Text(
+                              brewery.country,
+                            ),
+                            // const Divider(),
+                            // SizedBox(
+                            //   height: 450,
+                            //   width: 400,
+                            //   child: FlutterMap(
+                            //     options: MapOptions(
+                            //       center: LatLng(51.509364, -0.128928),
+                            //       zoom: 9.2,
+                            //       maxZoom: 22,
+                            //     ),
+                            //     children: [
+                            //       TileLayer(
+                            //         urlTemplate:
+                            //             'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
+                            //         subdomains: const ['a', 'b', 'c'],
+                            //         additionalOptions: const {
+                            //           'style':
+                            //               'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
+                            //           'apiKey':
+                            //               '8f6cd8800b8d436c890dccf078f972a8',
+                            //         },
+                            //         maxZoom: 22,
+                            //         userAgentPackageName: 'com.example.map',
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -168,8 +158,29 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
               );
             },
           ),
+          bottomNavigationBar: Visibility(
+            visible: viewModel.ratingUpdated,
+            child: BeerAppButton(
+              text: "Save rating",
+              onClick: () {
+                viewModel.updateBeer();
+                _showToast(context);
+              },
+            ),
+          ),
         );
       },
     );
   }
+}
+
+void _showToast(BuildContext context) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: const Text('Beer rating updated!'),
+      action: SnackBarAction(
+          label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
+    ),
+  );
 }
