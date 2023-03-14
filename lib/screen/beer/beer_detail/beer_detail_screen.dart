@@ -33,22 +33,6 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
         final Beer beer = viewModel.beerWithBrewery.beer;
-        // final Brewery brewery = Brewery(
-        //     id: viewModel.beerWithBrewery.brewery!.id.isNotEmpty
-        //         ? viewModel.beerWithBrewery.brewery!.id
-        //         : "No brewery linked yet!",
-        //     name: viewModel.beerWithBrewery.brewery!.name.isNotEmpty
-        //         ? viewModel.beerWithBrewery.brewery!.name
-        //         : "",
-        //     address: viewModel.beerWithBrewery.brewery!.address.isNotEmpty
-        //         ? viewModel.beerWithBrewery.brewery!.address
-        //         : "",
-        //     city: viewModel.beerWithBrewery.brewery!.city.isNotEmpty
-        //         ? viewModel.beerWithBrewery.brewery!.city
-        //         : "",
-        //     country: viewModel.beerWithBrewery.brewery!.country.isNotEmpty
-        //         ? viewModel.beerWithBrewery.brewery!.country
-        //         : "");
         final Brewery? brewery = viewModel.beerWithBrewery.brewery;
         final errorKey = viewModel.errorKey;
         return Scaffold(
@@ -58,13 +42,7 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
             systemOverlayStyle: SystemUiOverlayStyle.light,
             centerTitle: context.isIOSTheme,
             backgroundColor: theme.colorsTheme.primary,
-            actions: const [
-              // ActionItem(
-              //     key: Keys.logoutButton,
-              //     svgAsset: ThemeAssets.logoutIcon(context),
-              //     onClick: viewModel.onLogoutClicked,
-              //     color: theme.colorsTheme.appBarAction),
-            ],
+            actions: const [],
           ),
           body: Builder(
             builder: (context) {
@@ -87,8 +65,6 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(16),
-
-                        /// This is the important part, we need [Hero] widget with unique tag but same as Hero's tag in [User] widget.
                         child: Hero(
                           tag: beer.id,
                           transitionOnUserGestures: true,
@@ -115,33 +91,6 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                                   viewModel.updateRating(value),
                             ),
                             BreweryItem(brewery: brewery)
-                            // const Divider(),
-                            // SizedBox(
-                            //   height: 450,
-                            //   width: 400,
-                            //   child: FlutterMap(
-                            //     options: MapOptions(
-                            //       center: LatLng(51.509364, -0.128928),
-                            //       zoom: 9.2,
-                            //       maxZoom: 22,
-                            //     ),
-                            //     children: [
-                            //       TileLayer(
-                            //         urlTemplate:
-                            //             'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
-                            //         subdomains: const ['a', 'b', 'c'],
-                            //         additionalOptions: const {
-                            //           'style':
-                            //               'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
-                            //           'apiKey':
-                            //               '8f6cd8800b8d436c890dccf078f972a8',
-                            //         },
-                            //         maxZoom: 22,
-                            //         userAgentPackageName: 'com.example.map',
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -174,6 +123,7 @@ void _showToast(BuildContext context) {
       content: const Text('Beer rating updated!'),
       action: SnackBarAction(
           label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
+      duration: const Duration(seconds: 5),
     ),
   );
 }

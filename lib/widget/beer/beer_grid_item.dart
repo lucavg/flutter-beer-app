@@ -54,9 +54,9 @@ class BeerGridItem extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 10,
-                  left: 10,
-                  right: 10,
+                  bottom: 8,
+                  left: 8,
+                  right: 8,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.8),
