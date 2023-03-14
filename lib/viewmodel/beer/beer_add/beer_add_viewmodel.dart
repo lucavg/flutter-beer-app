@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:beer_app/model/webservice/beer/beer.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/repository/brewery/brewery_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:math';
+
+import 'package:path/path.dart';
 
 @injectable
 class BeerAddViewModel with ChangeNotifierEx {
@@ -17,13 +23,22 @@ class BeerAddViewModel with ChangeNotifierEx {
 
   Brewery? _selectedBrewery;
   String? _beerName;
-  int? _beerRating;
-  String? _beerThumbImageUrl;
-  String? _beerImageUrl;
+  int _beerRating = 0;
+  File? _beerImage;
   String? _breweryName;
   String? _breweryAddress;
   String? _breweryCity;
   String? _breweryCountry;
+
+  final TextEditingController beerNameController = TextEditingController();
+  final TextEditingController beerRatingController = TextEditingController();
+  final TextEditingController breweryNameController = TextEditingController();
+  final TextEditingController breweryAddressController =
+      TextEditingController();
+  final TextEditingController breweryCityController = TextEditingController();
+  final TextEditingController breweryCountryController =
+      TextEditingController();
+
   final String _dropdownHint = "Select a brewery";
 
   late Stream<List<Brewery>> _breweryStream;
@@ -36,6 +51,8 @@ class BeerAddViewModel with ChangeNotifierEx {
   Brewery? get selectedBrewery => _selectedBrewery;
 
   String get dropdownHint => _dropdownHint.toString();
+
+  int get currentRating => _beerRating;
 
   bool get isSaveEnabled => true;
 
@@ -60,20 +77,13 @@ class BeerAddViewModel with ChangeNotifierEx {
     notifyListeners();
   }
 
-  void onRatingChanged(String beerRating) {
-    if (beerRating.isNotEmpty) {
-      _beerRating = int.parse(beerRating);
-    }
+  void onRatingChanged(int beerRating) {
+    _beerRating = beerRating;
     notifyListeners();
   }
 
-  void onThumbImageUrlChanged(String beerThumbImageUrl) {
-    _beerThumbImageUrl = beerThumbImageUrl.trim();
-    notifyListeners();
-  }
-
-  void onImageUrlChanged(String beerImageUrl) {
-    _beerImageUrl = beerImageUrl.trim();
+  void onImageUrlChanged(File? beerImage) {
+    _beerImage = beerImage;
     notifyListeners();
   }
 
@@ -102,29 +112,41 @@ class BeerAddViewModel with ChangeNotifierEx {
     _breweryCountry = "";
     _breweryCity = "";
     _breweryAddress = "";
+    _selectedBrewery = null;
 
     _beerName = "";
-    _beerImageUrl = "";
-    _beerThumbImageUrl = "";
+    _beerImage = null;
     _beerRating = 0;
+
+    breweryNameController.clear();
+    breweryCountryController.clear();
+    breweryCityController.clear();
+    breweryAddressController.clear();
+
+    beerNameController.clear();
+    beerRatingController.clear();
+
+    notifyListeners();
+    _breweryStream = _breweryRepository.getAllBreweries().asBroadcastStream();
   }
 
   void onBackClicked() => _navigator.goBack<void>();
 
   Future<void> onBreweryExistsSaveClicked() async {
-    final beerImageRef = storage.child("${_beerName}_image");
+    final String imageUrl = await uploadFile(_beerImage!);
     final Beer beer = Beer(
         id: getRandomString(10),
         name: _beerName.toString(),
         rating: _beerRating?.toInt() ?? 0,
-        thumbImageUrl: _beerThumbImageUrl.toString(),
-        imageUrl: _beerImageUrl.toString(),
+        thumbImageUrl: imageUrl.toString(),
+        imageUrl: imageUrl.toString(),
         brewery: _selectedBrewery);
     await _beerRepository.saveBeerWithValue(beer);
     _navigator.goBack(result: true);
   }
 
   Future<void> onNewBrewerySavedClicked() async {
+    final String imageUrl = await uploadFile(_beerImage!);
     final Brewery brewery = Brewery(
         id: getRandomString(10),
         name: _breweryName.toString(),
@@ -136,8 +158,8 @@ class BeerAddViewModel with ChangeNotifierEx {
         id: getRandomString(10),
         name: _beerName.toString(),
         rating: _beerRating?.toInt() ?? 0,
-        thumbImageUrl: _beerThumbImageUrl.toString(),
-        imageUrl: _beerImageUrl.toString(),
+        thumbImageUrl: imageUrl,
+        imageUrl: imageUrl,
         brewery: brewery);
     await _beerRepository.saveBeerWithValue(beer);
     _navigator.goBack(result: true);
@@ -151,4 +173,27 @@ class BeerAddViewModel with ChangeNotifierEx {
           ),
         ),
       );
+
+  Future<String> uploadFile(File image) async {
+    try {
+      final rng = Random();
+      final storageRef = FirebaseStorage.instance.ref();
+      final imageRef = storageRef.child("${_beerName}_${rng.nextInt(9999999)}.jpg");
+
+      final File selectedImagePath = File(image.path);
+      final metadata = SettableMetadata(
+        contentType: "image/jpeg",
+      );
+      final uploadTask = imageRef.putFile(selectedImagePath, metadata);
+      final String imageUrl = await uploadTask.then((snapshot) async {
+        final downloadUrl = await snapshot.ref.getDownloadURL();
+        return downloadUrl.toString();
+      });
+
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      logger.error("A FirebaseError has occurred.", error: e);
+      return "";
+    }
+  }
 }

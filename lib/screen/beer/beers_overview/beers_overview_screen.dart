@@ -1,15 +1,19 @@
 import 'package:beer_app/di/injectable.dart';
 import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
+import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/styles/theme_assets.dart';
+import 'package:beer_app/styles/theme_data.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/util/keys.dart';
 import 'package:beer_app/viewmodel/beer/beers_overview/beers_overview_viewmodel.dart';
 import 'package:beer_app/widget/beer/beer_item.dart';
 import 'package:beer_app/widget/general/action/action_item.dart';
+import 'package:beer_app/widget/general/styled/beer_app_button.dart';
 import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart';
 import 'package:beer_app/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class BeersOverviewScreen extends StatefulWidget {
@@ -96,27 +100,22 @@ class BeersOverViewScreenState extends State<BeersOverviewScreen> {
                         ),
                       );
                     }
-                    return ListView.separated(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
-                        return GestureDetector(
-                            onTap: () {
-                              viewModel.onBeerClicked(item);
-                            },
-                            child: BeerItem(
-                              beerWithBrewery: item,
-                              navigator: viewModel.navigator,
-                            ));
-                      },
-                      separatorBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: ThemeDimens.padding16),
-                        child: Container(
-                          height: 1,
-                          color: theme.colorsTheme.primary.withOpacity(0.1),
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: BeerAppButton(
+                            text: "Toggle view!",
+                            onClick: () => viewModel.onViewToggleClicked(),
+                          ),
                         ),
-                      ),
+                        const Divider(height: 16),
+                        Flexible(
+                          child: viewModel.isGridView
+                              ? viewModel.buildGridView(data, viewModel.navigator)
+                              : viewModel.buildListView(data, viewModel.navigator, theme),
+                        ),
+                      ],
                     );
                   },
                 ),

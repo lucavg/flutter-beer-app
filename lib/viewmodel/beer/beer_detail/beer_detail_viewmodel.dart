@@ -1,6 +1,8 @@
 import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
+import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -9,10 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 @injectable
 class BeerDetailViewModel with ChangeNotifierEx {
   late final BeerWithBrewery _beerWithBrewery;
+  final BeerRepository _beerRepository;
   final MainNavigator _navigator;
   final SharedPreferences _sharedPreferences;
 
   BeerDetailViewModel(
+    this._beerRepository,
     this._navigator,
     this._sharedPreferences,
   );
@@ -21,6 +25,9 @@ class BeerDetailViewModel with ChangeNotifierEx {
   bool _hasImage = false;
   double _lat = 0.0;
   double _lng = 0.0;
+
+  bool _ratingUpdated = false;
+  late int _currentRating;
   var _isLoading = false;
 
   String? get errorKey => _errorKey;
@@ -33,6 +40,10 @@ class BeerDetailViewModel with ChangeNotifierEx {
 
   double get lng => _lng;
 
+  bool get ratingUpdated => _ratingUpdated;
+
+  int get currentRating => _currentRating;
+
   BeerWithBrewery get beerWithBrewery => _beerWithBrewery;
 
   Future<void> init(BeerWithBrewery beerWithBrewery) async {
@@ -43,6 +54,9 @@ class BeerDetailViewModel with ChangeNotifierEx {
       } else {
         _hasImage = false;
       }
+
+      _currentRating = beerWithBrewery.beer.rating;
+
       final String address =
           "${_beerWithBrewery.brewery!.address}, ${_beerWithBrewery.brewery!.city}, ${_beerWithBrewery.brewery!.country}";
       final List<Location> locations = await locationFromAddress(address);
@@ -63,6 +77,15 @@ class BeerDetailViewModel with ChangeNotifierEx {
       notifyListeners();
     }
   }
+
+  void updateRating(int newRating) {
+    _currentRating = newRating;
+    _ratingUpdated = true;
+    notifyListeners();
+  }
+
+  Future<void> updateBeer() async => await _beerRepository.setBeerRating(
+      id: beerWithBrewery.beer.id, rating: _currentRating);
 
   void onLogoutClicked() =>
       {_sharedPreferences.clear(), _navigator.goToSplash()};

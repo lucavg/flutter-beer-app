@@ -3,7 +3,11 @@ import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/repository/brewery/brewery_repository.dart';
+import 'package:beer_app/styles/theme_data.dart';
+import 'package:beer_app/styles/theme_dimens.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
+import 'package:beer_app/widget/beer/beer_item.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,9 +24,12 @@ class BeersOverViewViewModel with ChangeNotifierEx {
   late Stream<List<Brewery>> _breweryStream;
 
   var _isLoading = false;
+  var _isGridView = false;
   String? _errorKey;
 
   bool get isLoading => _isLoading;
+
+  bool get isGridView => _isGridView;
 
   String? get errorKey => _errorKey;
 
@@ -71,4 +78,53 @@ class BeersOverViewViewModel with ChangeNotifierEx {
       {_sharedPreferences.clear(), _navigator.goToSplash()};
 
   void onBeerClicked(BeerWithBrewery beer) => _navigator.goToBeerDetail(beer);
+
+  void onViewToggleClicked() {
+    _isGridView = !_isGridView;
+    notifyListeners();
+  }
+
+  Widget buildListView(List<BeerWithBrewery?> data, MainNavigator navigator,
+      BeerAppTheme theme) {
+    return ListView.separated(
+      shrinkWrap: true,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        final item = data[index];
+        return BeerItem(
+          beerWithBrewery: item!,
+          navigator: navigator,
+        );
+      },
+      separatorBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: ThemeDimens.padding16),
+        child: Container(
+          height: 1,
+          color: theme.colorsTheme.primary.withOpacity(0.1),
+        ),
+      ),
+    );
+  }
+
+  Widget buildGridView(List<BeerWithBrewery?> data, MainNavigator navigator) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        final item = data[index];
+        return Card(
+          child: Center(
+            child: GestureDetector(
+              onTap: () => navigator.goToBeerDetail(item),
+              child: Image.network(item!.beer.imageUrl),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
