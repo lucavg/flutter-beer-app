@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:beer_app/util/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -44,10 +45,10 @@ class ImagePickerFormField extends FormField<File> {
                       height: 200,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Icon(Icons.image),
-                          SizedBox(height: 10),
-                          Text('Tap to upload an image'),
+                        children: <Widget>[
+                          const Icon(Icons.image),
+                          const SizedBox(height: 10),
+                          Text(Localization().imagePickerHint),
                         ],
                       ),
                     )

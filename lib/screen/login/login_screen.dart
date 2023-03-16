@@ -28,27 +28,27 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //TODO: Add loading state, prevent users from pressing login while loading
-                    Image.network(
-                      "https://freesvg.org/img/1515941353.png",
+                    Image.asset(
+                      "assets/images/placeholder.png",
                       height: MediaQuery.of(context).size.height * 0.4,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     // add spacing
                     BeerAppInputField(
-                      hint: 'Email',
+                      hint: localization.loginEmail,
                       onChanged: (value) => viewModel.onEmailUpdated(value),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     // add spacing
                     CensoredInputField(
-                      hint: 'Password',
+                      hint: localization.loginPassword,
                       enabled: true,
                       onChanged: (value) => viewModel.onPasswordUpdated(value),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     // add spacing
                     BeerAppButton(
-                      text: 'Login',
+                      text: localization.loginConfirm,
                       onClick: () => viewModel.onLoginClicked(),
                     ),
                   ],

@@ -4,7 +4,10 @@ import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/model/webservice/beer/brewery.dart';
 import 'package:beer_app/navigator/route_names.dart';
 import 'package:beer_app/styles/theme_dimens.dart';
+import 'package:beer_app/util/locale/localization.dart';
+import 'package:beer_app/util/locale/localization_keys.dart';
 import 'package:beer_app/viewmodel/beer/beer_detail/beer_detail_viewmodel.dart';
+import 'package:beer_app/viewmodel/beer/beers_overview/beers_overview_viewmodel.dart';
 import 'package:beer_app/widget/beer/rating_bar_form_field.dart';
 import 'package:beer_app/widget/brewery/brewery_item.dart';
 import 'package:beer_app/widget/general/styled/beer_app_button.dart';
@@ -44,70 +47,81 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
             backgroundColor: theme.colorsTheme.primary,
             actions: const [],
           ),
-          body: Builder(
-            builder: (context) {
-              if (viewModel.isLoading) {
-                return Center(
-                    child: BeerAppProgressIndicator(dark: theme.isLightTheme));
-              }
-              if (errorKey != null) {
-                return Center(
-                  child: Text(
-                    localization.getTranslation(errorKey),
-                    style: theme.coreTextTheme.bodyNormal
-                        .copyWith(color: theme.colorsTheme.errorText),
-                  ),
-                );
-              }
-              return Scrollbar(
-                child: Center(
-                  child: ListView(
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        child: Hero(
-                          tag: beer.id,
-                          transitionOnUserGestures: true,
-                          child: Image.network(
-                            viewModel.hasImage
-                                ? beer.imageUrl
-                                : "https://freesvg.org/img/1515941353.png",
-                            height: MediaQuery.of(context).size.height * 0.25,
+          body: SafeArea(
+            child: Builder(
+              builder: (context) {
+                if (viewModel.isLoading) {
+                  return Center(
+                      child:
+                          BeerAppProgressIndicator(dark: theme.isLightTheme));
+                }
+                if (errorKey != null) {
+                  return Center(
+                    child: Text(
+                      localization.getTranslation(errorKey),
+                      style: theme.coreTextTheme.bodyNormal
+                          .copyWith(color: theme.colorsTheme.errorText),
+                    ),
+                  );
+                }
+                return Scrollbar(
+                  child: Center(
+                    child: ListView(
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          child: Hero(
+                            tag: beer.id,
+                            transitionOnUserGestures: true,
+                            child: FadeInImage(
+                              placeholder: const AssetImage(
+                                  'assets/images/placeholder.png'),
+                              image: NetworkImage(
+                                beer.imageUrl,
+                              ),
+                              fit: BoxFit.cover,
+                              fadeInDuration: const Duration(milliseconds: 200),
+                              fadeOutDuration:
+                                  const Duration(milliseconds: 200),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(ThemeDimens.padding32),
-                        child: Column(
-                          children: [
-                            Text(
-                              beer.name,
-                              style: const TextStyle(fontSize: 22),
-                            ),
-                            RatingBarFormField(
-                              maxStars: 5,
-                              currentRating: viewModel.currentRating,
-                              onRatingChanged: (value) =>
-                                  viewModel.updateRating(value),
-                            ),
-                            BreweryItem(brewery: brewery)
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(ThemeDimens.padding32),
+                          child: Column(
+                            children: [
+                              Text(
+                                beer.name,
+                                style: theme.coreTextTheme.titleBig,
+                                textAlign: TextAlign.center,
+                              ),
+                              RatingBarFormField(
+                                maxStars: 5,
+                                currentRating: viewModel.currentRating,
+                                onRatingChanged: (value) =>
+                                    viewModel.updateRating(value),
+                              ),
+                              BreweryItem(brewery: brewery)
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           bottomNavigationBar: Visibility(
             visible: viewModel.ratingUpdated,
-            child: BeerAppButton(
-              text: "Save rating",
-              onClick: () {
-                viewModel.updateBeer();
-                _showToast(context);
-              },
+            child: SafeArea(
+              child: BeerAppButton(
+                text: localization.beerDetailSaveRating,
+                onClick: () {
+                  viewModel.updateBeer();
+                  _showToast(context);
+                },
+              ),
             ),
           ),
         );
@@ -120,9 +134,10 @@ void _showToast(BuildContext context) {
   final scaffold = ScaffoldMessenger.of(context);
   scaffold.showSnackBar(
     SnackBar(
-      content: const Text('Beer rating updated!'),
+      content: Text(Localization().beerDetailSaveRating),
       action: SnackBarAction(
-          label: 'CLOSE', onPressed: scaffold.hideCurrentSnackBar),
+          label: Localization().beerDetailCloseToast,
+          onPressed: scaffold.hideCurrentSnackBar),
       duration: const Duration(seconds: 5),
     ),
   );

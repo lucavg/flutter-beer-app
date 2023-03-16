@@ -250,34 +250,6 @@ class LocalizationKeys {
 
   /// Translations:
   ///
-  /// nl:  **'Vul hier uw todo in'**
-  ///
-  /// en:  **'Enter your todo'**
-  static const todoAddInputHint = 'todo_add_input_hint';
-
-  /// Translations:
-  ///
-  /// nl:  **'Todo toevoegen'**
-  ///
-  /// en:  **'Add todo'**
-  static const todoAddTitle = 'todo_add_title';
-
-  /// Translations:
-  ///
-  /// nl:  **'Er is nog geen data toegevoegd in uw database. Je kan een paar todo's ophalen van een api calll (download icoon) of je kan er zelf toevoegen door op het plus icoon te drukken.'**
-  ///
-  /// en:  **'No data added to your database. Fetch some todos with an api call (download icon) or add one yourself by clicking the add icon.'**
-  static const todoEmptyState = 'todo_empty_state';
-
-  /// Translations:
-  ///
-  /// nl:  **'Todo'**
-  ///
-  /// en:  **'Todo'**
-  static const todoTitle = 'todo_title';
-
-  /// Translations:
-  ///
   /// nl:  **'Thema'**
   ///
   /// en:  **'Theme'**
@@ -366,5 +338,215 @@ class LocalizationKeys {
   ///
   /// en:  **'Reset analytics permission'**
   static const debugPermissionResetAnalytics = 'debug_permission_reset_analytics';
+
+  /// Translations:
+  ///
+  /// nl:  **'Er is nog geen data toegevoegd in uw database. Je kan een paar bieren ophalen van een api call (download icoon) of je kan er zelf toevoegen door op het plus icoon te drukken.'**
+  ///
+  /// en:  **'No data added to your database. Fetch some beers with an api call (download icon) or add one yourself by clicking the add icon.'**
+  static const beerEmptyState = 'beer_empty_state';
+
+  /// Translations:
+  ///
+  /// nl:  **'Nieuw bier toevoegen'**
+  ///
+  /// en:  **'Add beer'**
+  static const beerAddTitle = 'beer_add_title';
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier data:'**
+  ///
+  /// en:  **'Beer data:'**
+  static const beerAddBeerData = 'beer_add_beer_data';
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier naam'**
+  ///
+  /// en:  **'Beer name'**
+  static const beerAddBeerName = 'beer_add_beer_name';
+
+  /// Translations:
+  ///
+  /// nl:  **'Kies een afbeelding aub.'**
+  ///
+  /// en:  **'Please select an image'**
+  static const beerAddImageValidator = 'beer_add_image_validator';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij data:'**
+  ///
+  /// en:  **'Brewery data:'**
+  static const beerAddBreweryData = 'beer_add_brewery_data';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij naam'**
+  ///
+  /// en:  **'Brewery name'**
+  static const beerAddBreweryName = 'beer_add_brewery_name';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij adres'**
+  ///
+  /// en:  **'Brewery address'**
+  static const beerAddBreweryAddress = 'beer_add_brewery_address';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij stad'**
+  ///
+  /// en:  **'Brewery city'**
+  static const beerAddBreweryCity = 'beer_add_brewery_city';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij land'**
+  ///
+  /// en:  **'Brewery country'**
+  static const beerAddBreweryCountry = 'beer_add_brewery_country';
+
+  /// Translations:
+  ///
+  /// nl:  **'Selecteer een brouwerij'**
+  ///
+  /// en:  **'Select a brewery'**
+  static const beerAddBrewerySelect = 'beer_add_brewery_select';
+
+  /// Translations:
+  ///
+  /// nl:  **'Score opslaan'**
+  ///
+  /// en:  **'Save rating'**
+  static const beerDetailSaveRating = 'beer_detail_save_rating';
+
+  /// Translations:
+  ///
+  /// nl:  **'Sluiten'**
+  ///
+  /// en:  **'Close'**
+  static const beerDetailCloseToast = 'beer_detail_close_toast';
+
+  /// Translations:
+  ///
+  /// nl:  **'Alle bieren'**
+  ///
+  /// en:  **'All beers'**
+  static const beerOverviewTitle = 'beer_overview_title';
+
+  /// Translations:
+  ///
+  /// nl:  **'Lijst is leeg.'**
+  ///
+  /// en:  **'List is empty.'**
+  static const beerOverviewEmpty = 'beer_overview_empty';
+
+  /// Translations:
+  ///
+  /// nl:  **'Sorteren op'**
+  ///
+  /// en:  **'Sort by'**
+  static const beerOverviewSort = 'beer_overview_sort';
+
+  /// Translations:
+  ///
+  /// nl:  **'Naam'**
+  ///
+  /// en:  **'Name'**
+  static const beerOverviewSortName = 'beer_overview_sort_name';
+
+  /// Translations:
+  ///
+  /// nl:  **'Score (stijgend)'**
+  ///
+  /// en:  **'Rating (asc.)'**
+  static const beerOverviewSortRatingUp = 'beer_overview_sort_rating_up';
+
+  /// Translations:
+  ///
+  /// nl:  **'Score (dalend)'**
+  ///
+  /// en:  **'Rating (desc.)'**
+  static const beerOverviewSortRatingDown = 'beer_overview_sort_rating_down';
+
+  /// Translations:
+  ///
+  /// nl:  **'Groeperen op'**
+  ///
+  /// en:  **'Group by'**
+  static const beerOverviewGroup = 'beer_overview_group';
+
+  /// Translations:
+  ///
+  /// nl:  **'Geen groepering'**
+  ///
+  /// en:  **'None'**
+  static const beerOverviewGroupNone = 'beer_overview_group_none';
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij'**
+  ///
+  /// en:  **'Brewery'**
+  static const beerOverviewGroupBrewery = 'beer_overview_group_brewery';
+
+  /// Translations:
+  ///
+  /// nl:  **'Score'**
+  ///
+  /// en:  **'Rating'**
+  static const beerOverviewGroupRating = 'beer_overview_group_rating';
+
+  /// Translations:
+  ///
+  /// nl:  **'Wissel'**
+  ///
+  /// en:  **'Toggle'**
+  static const beerOverviewViewToggle = 'beer_overview_view_toggle';
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier'**
+  ///
+  /// en:  **'Beer'**
+  static const homeBottomNavbarBeer = 'home_bottom_navbar_beer';
+
+  /// Translations:
+  ///
+  /// nl:  **'Email'**
+  ///
+  /// en:  **'Email'**
+  static const loginEmail = 'login_email';
+
+  /// Translations:
+  ///
+  /// nl:  **'Wachtwoord'**
+  ///
+  /// en:  **'Password'**
+  static const loginPassword = 'login_password';
+
+  /// Translations:
+  ///
+  /// nl:  **'Inloggen'**
+  ///
+  /// en:  **'Login'**
+  static const loginConfirm = 'login_confirm';
+
+  /// Translations:
+  ///
+  /// nl:  **'Invalide type voor key: '**
+  ///
+  /// en:  **'Invalid key type: '**
+  static const beerListKeyError = 'beer_list_key_error';
+
+  /// Translations:
+  ///
+  /// nl:  **'Tap om een afbeelding te kiezen'**
+  ///
+  /// en:  **'Tap to upload an image'**
+  static const imagePickerHint = 'image_picker_hint';
 
 }

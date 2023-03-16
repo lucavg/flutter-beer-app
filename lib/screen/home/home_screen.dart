@@ -37,9 +37,9 @@ class HomeScreenState extends State<HomeScreen> {
             selectedItemColor: theme.colorsTheme.bottomNavbarItemActive,
             unselectedItemColor: theme.colorsTheme.bottomNavbarItemInactive,
             items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.local_drink),
-                label: "Beer",
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.local_drink),
+                label: localization.homeBottomNavbarBeer,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.settings),

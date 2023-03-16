@@ -44,7 +44,7 @@ class BeerAddScreenState extends State<BeerAddScreen> {
                 leading: BeerAppBackButton.light(
                   onClick: viewModel.onBackClicked,
                 ),
-                title: const Text("Add a new beer!"),
+                title: Text(localization.beerAddTitle),
                 backgroundColor: theme.colorsTheme.primary,
                 bottom: TabBar(
                   onTap: (index) => viewModel.resetForm(),
@@ -54,170 +54,173 @@ class BeerAddScreenState extends State<BeerAddScreen> {
                   ],
                 ),
               ),
-              body: ScrollConfiguration(
-                behavior: ScrollWhenNeededBehavior(),
-                child: Scrollbar(
-                  child: TabBarView(
-                    children: [
-                      ListView(
-                        physics: ScrollWhenNeededPhysics(
-                            targetPlatform: Theme.of(context).platform),
-                        padding: const EdgeInsets.all(ThemeDimens.padding16),
-                        children: [
-                          Text(
-                            "Beer data:",
-                            textAlign: TextAlign.center,
-                            style: theme.coreTextTheme.bodyNormal,
-                          ),
-                          BeerAppInputField(
-                            hint: "Beer name",
-                            controller: viewModel.beerNameController,
-                            onChanged: (value) =>
-                                viewModel.onNameChanged(value),
-                          ),
-                          RatingBarFormField(
-                            maxStars: 5,
-                            currentRating: viewModel.currentRating,
-                            onRatingChanged: (value) =>
-                                viewModel.onRatingChanged(value),
-                          ),
-                          ImagePickerFormField(
-                            onImagePicked: (File? value) {
-                              viewModel.onImageUrlChanged(value);
-                            },
-                            validator: (File? value) {
-                              if (value == null) {
-                                return 'Please select an image';
-                              }
-                              return null;
-                            },
-                          ),
-                          const Divider(
-                            height: 16,
-                          ),
-                          Text(
-                            "Brewery data:",
-                            textAlign: TextAlign.center,
-                            style: theme.coreTextTheme.bodyNormal,
-                          ),
-                          BeerAppInputField(
-                            hint: "Brewery name",
-                            controller: viewModel.breweryNameController,
-                            onChanged: (value) =>
-                                viewModel.onBreweryNameChanged(value),
-                          ),
-                          BeerAppInputField(
-                            hint: "Brewery address",
-                            controller: viewModel.breweryAddressController,
-                            onChanged: (value) =>
-                                viewModel.onBreweryAddressChanged(value),
-                          ),
-                          BeerAppInputField(
-                            hint: "Brewery city",
-                            controller: viewModel.breweryCityController,
-                            onChanged: (value) =>
-                                viewModel.onBreweryCityChanged(value),
-                          ),
-                          BeerAppInputField(
-                            hint: "Brewery country",
-                            controller: viewModel.breweryCountryController,
-                            onChanged: (value) =>
-                                viewModel.onBreweryCountryChanged(value),
-                          ),
-                          BeerAppButton(
-                            text: localization.generalLabelSave,
-                            isEnabled: viewModel.isSaveEnabled,
-                            onClick: () async => _showToast(
-                              context,
-                              await viewModel.onNewBrewerySavedClicked(),
+              body: SafeArea(
+                child: ScrollConfiguration(
+                  behavior: ScrollWhenNeededBehavior(),
+                  child: Scrollbar(
+                    child: TabBarView(
+                      children: [
+                        ListView(
+                          physics: ScrollWhenNeededPhysics(
+                              targetPlatform: Theme.of(context).platform),
+                          padding: const EdgeInsets.all(ThemeDimens.padding16),
+                          children: [
+                            Text(
+                              localization.beerAddBeerData,
+                              textAlign: TextAlign.center,
+                              style: theme.coreTextTheme.bodyNormal,
                             ),
-                          ),
-                        ],
-                      ),
-                      ListView(
-                        physics: ScrollWhenNeededPhysics(
-                            targetPlatform: Theme.of(context).platform),
-                        padding: const EdgeInsets.all(ThemeDimens.padding16),
-                        children: [
-                          Text(
-                            "Beer data:",
-                            textAlign: TextAlign.center,
-                            style: theme.coreTextTheme.bodyNormal,
-                          ),
-                          BeerAppInputField(
-                            hint: "Beer name",
-                            controller: viewModel.beerNameController,
-                            onChanged: (value) =>
-                                viewModel.onNameChanged(value),
-                          ),
-                          RatingBarFormField(
-                            maxStars: 5,
-                            currentRating: viewModel.currentRating,
-                            onRatingChanged: (value) =>
-                                viewModel.onRatingChanged(value),
-                          ),
-                          ImagePickerFormField(
-                            onImagePicked: (File? value) {
-                              viewModel.onImageUrlChanged(value);
-                            },
-                            validator: (File? value) {
-                              if (value == null) {
-                                return 'Please select an image';
-                              }
-                              return null;
-                            },
-                          ),
-                          const Divider(
-                            height: 16,
-                          ),
-                          Text(
-                            "Brewery data:",
-                            textAlign: TextAlign.center,
-                            style: theme.coreTextTheme.bodyNormal,
-                          ),
-                          StreamBuilder<List<Brewery>>(
-                            stream: viewModel.dataBreweryStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
+                            BeerAppInputField(
+                              hint: localization.beerAddBeerName,
+                              controller: viewModel.beerNameController,
+                              onChanged: (value) =>
+                                  viewModel.onNameChanged(value),
+                            ),
+                            RatingBarFormField(
+                              maxStars: 5,
+                              currentRating: viewModel.currentRating,
+                              onRatingChanged: (value) =>
+                                  viewModel.onRatingChanged(value),
+                            ),
+                            ImagePickerFormField(
+                              onImagePicked: (File? value) {
+                                viewModel.onImageUrlChanged(value);
+                              },
+                              validator: (File? value) {
+                                if (value == null) {
+                                  return localization.beerAddImageValidator;
+                                }
+                                return null;
+                              },
+                            ),
+                            const Divider(
+                              height: 16,
+                            ),
+                            Text(
+                              localization.beerAddBreweryData,
+                              textAlign: TextAlign.center,
+                              style: theme.coreTextTheme.bodyNormal,
+                            ),
+                            BeerAppInputField(
+                              hint: localization.beerAddBreweryName,
+                              controller: viewModel.breweryNameController,
+                              onChanged: (value) =>
+                                  viewModel.onBreweryNameChanged(value),
+                            ),
+                            BeerAppInputField(
+                              hint: localization.beerAddBreweryAddress,
+                              controller: viewModel.breweryAddressController,
+                              onChanged: (value) =>
+                                  viewModel.onBreweryAddressChanged(value),
+                            ),
+                            BeerAppInputField(
+                              hint: localization.beerAddBreweryCity,
+                              controller: viewModel.breweryCityController,
+                              onChanged: (value) =>
+                                  viewModel.onBreweryCityChanged(value),
+                            ),
+                            BeerAppInputField(
+                              hint: localization.beerAddBreweryCountry,
+                              controller: viewModel.breweryCountryController,
+                              onChanged: (value) =>
+                                  viewModel.onBreweryCountryChanged(value),
+                            ),
+                            BeerAppButton(
+                              text: localization.generalLabelSave,
+                              isEnabled: viewModel.isSaveEnabled,
+                              onClick: () async => _showToast(
+                                context,
+                                await viewModel.onNewBrewerySavedClicked(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        ListView(
+                          physics: ScrollWhenNeededPhysics(
+                              targetPlatform: Theme.of(context).platform),
+                          padding: const EdgeInsets.all(ThemeDimens.padding16),
+                          children: [
+                            Text(
+                              localization.beerAddBeerData,
+                              textAlign: TextAlign.center,
+                              style: theme.coreTextTheme.bodyNormal,
+                            ),
+                            BeerAppInputField(
+                              hint: localization.beerAddBeerName,
+                              controller: viewModel.beerNameController,
+                              onChanged: (value) =>
+                                  viewModel.onNameChanged(value),
+                            ),
+                            RatingBarFormField(
+                              maxStars: 5,
+                              currentRating: viewModel.currentRating,
+                              onRatingChanged: (value) =>
+                                  viewModel.onRatingChanged(value),
+                            ),
+                            ImagePickerFormField(
+                              onImagePicked: (File? value) {
+                                viewModel.onImageUrlChanged(value);
+                              },
+                              validator: (File? value) {
+                                if (value == null) {
+                                  return localization.beerAddImageValidator;
+                                }
+                                return null;
+                              },
+                            ),
+                            const Divider(
+                              height: 16,
+                            ),
+                            Text(
+                              localization.beerAddBreweryData,
+                              textAlign: TextAlign.center,
+                              style: theme.coreTextTheme.bodyNormal,
+                            ),
+                            StreamBuilder<List<Brewery>>(
+                              stream: viewModel.dataBreweryStream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
 
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return const BeerAppProgressIndicator(
-                                      dark: true);
-                                default:
-                                  return DropdownButton<Brewery>(
-                                    hint: Text(viewModel.selectedBrewery == null
-                                        ? "Select a brewery"
-                                        : viewModel.selectedBrewery!.name),
-                                    items: snapshot.data?.map(
-                                      (Brewery brewery) {
-                                        return DropdownMenuItem<Brewery>(
-                                          value: brewery,
-                                          child: Text(brewery.name),
-                                        );
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return const BeerAppProgressIndicator(
+                                        dark: true);
+                                  default:
+                                    return DropdownButton<Brewery>(
+                                      hint: Text(viewModel.selectedBrewery ==
+                                              null
+                                          ? localization.beerAddBrewerySelect
+                                          : viewModel.selectedBrewery!.name),
+                                      items: snapshot.data?.map(
+                                        (Brewery brewery) {
+                                          return DropdownMenuItem<Brewery>(
+                                            value: brewery,
+                                            child: Text(brewery.name),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (Brewery? selectedBrewery) {
+                                        viewModel.selectedBrewery =
+                                            selectedBrewery;
                                       },
-                                    ).toList(),
-                                    onChanged: (Brewery? selectedBrewery) {
-                                      viewModel.selectedBrewery =
-                                          selectedBrewery;
-                                    },
-                                  );
-                              }
-                            },
-                          ),
-                          BeerAppButton(
-                            text: localization.generalLabelSave,
-                            isEnabled: viewModel.isSaveEnabled,
-                            onClick: () async => _showToast(
-                              context,
-                              await viewModel.onBreweryExistsSaveClicked(),
+                                    );
+                                }
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            BeerAppButton(
+                              text: localization.generalLabelSave,
+                              isEnabled: viewModel.isSaveEnabled,
+                              onClick: () async => _showToast(
+                                context,
+                                await viewModel.onBreweryExistsSaveClicked(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

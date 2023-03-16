@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
 import 'package:beer_app/util/locale/localization_overrides.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sprintf/sprintf.dart';
 
 //============================================================//
@@ -319,34 +319,6 @@ class Localization {
 
   /// Translations:
   ///
-  /// nl:  **'Vul hier uw todo in'**
-  ///
-  /// en:  **'Enter your todo'**
-  String get todoAddInputHint => _t(LocalizationKeys.todoAddInputHint);
-
-  /// Translations:
-  ///
-  /// nl:  **'Todo toevoegen'**
-  ///
-  /// en:  **'Add todo'**
-  String get todoAddTitle => _t(LocalizationKeys.todoAddTitle);
-
-  /// Translations:
-  ///
-  /// nl:  **'Er is nog geen data toegevoegd in uw database. Je kan een paar todo's ophalen van een api calll (download icoon) of je kan er zelf toevoegen door op het plus icoon te drukken.'**
-  ///
-  /// en:  **'No data added to your database. Fetch some todos with an api call (download icon) or add one yourself by clicking the add icon.'**
-  String get todoEmptyState => _t(LocalizationKeys.todoEmptyState);
-
-  /// Translations:
-  ///
-  /// nl:  **'Todo'**
-  ///
-  /// en:  **'Todo'**
-  String get todoTitle => _t(LocalizationKeys.todoTitle);
-
-  /// Translations:
-  ///
   /// nl:  **'Thema'**
   ///
   /// en:  **'Theme'**
@@ -435,6 +407,216 @@ class Localization {
   ///
   /// en:  **'Reset analytics permission'**
   String get debugPermissionResetAnalytics => _t(LocalizationKeys.debugPermissionResetAnalytics);
+
+  /// Translations:
+  ///
+  /// nl:  **'Er is nog geen data toegevoegd in uw database. Je kan een paar bieren ophalen van een api call (download icoon) of je kan er zelf toevoegen door op het plus icoon te drukken.'**
+  ///
+  /// en:  **'No data added to your database. Fetch some beers with an api call (download icon) or add one yourself by clicking the add icon.'**
+  String get beerEmptyState => _t(LocalizationKeys.beerEmptyState);
+
+  /// Translations:
+  ///
+  /// nl:  **'Nieuw bier toevoegen'**
+  ///
+  /// en:  **'Add beer'**
+  String get beerAddTitle => _t(LocalizationKeys.beerAddTitle);
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier data:'**
+  ///
+  /// en:  **'Beer data:'**
+  String get beerAddBeerData => _t(LocalizationKeys.beerAddBeerData);
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier naam'**
+  ///
+  /// en:  **'Beer name'**
+  String get beerAddBeerName => _t(LocalizationKeys.beerAddBeerName);
+
+  /// Translations:
+  ///
+  /// nl:  **'Kies een afbeelding aub.'**
+  ///
+  /// en:  **'Please select an image'**
+  String get beerAddImageValidator => _t(LocalizationKeys.beerAddImageValidator);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij data:'**
+  ///
+  /// en:  **'Brewery data:'**
+  String get beerAddBreweryData => _t(LocalizationKeys.beerAddBreweryData);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij naam'**
+  ///
+  /// en:  **'Brewery name'**
+  String get beerAddBreweryName => _t(LocalizationKeys.beerAddBreweryName);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij adres'**
+  ///
+  /// en:  **'Brewery address'**
+  String get beerAddBreweryAddress => _t(LocalizationKeys.beerAddBreweryAddress);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij stad'**
+  ///
+  /// en:  **'Brewery city'**
+  String get beerAddBreweryCity => _t(LocalizationKeys.beerAddBreweryCity);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij land'**
+  ///
+  /// en:  **'Brewery country'**
+  String get beerAddBreweryCountry => _t(LocalizationKeys.beerAddBreweryCountry);
+
+  /// Translations:
+  ///
+  /// nl:  **'Selecteer een brouwerij'**
+  ///
+  /// en:  **'Select a brewery'**
+  String get beerAddBrewerySelect => _t(LocalizationKeys.beerAddBrewerySelect);
+
+  /// Translations:
+  ///
+  /// nl:  **'Score opslaan'**
+  ///
+  /// en:  **'Save rating'**
+  String get beerDetailSaveRating => _t(LocalizationKeys.beerDetailSaveRating);
+
+  /// Translations:
+  ///
+  /// nl:  **'Sluiten'**
+  ///
+  /// en:  **'Close'**
+  String get beerDetailCloseToast => _t(LocalizationKeys.beerDetailCloseToast);
+
+  /// Translations:
+  ///
+  /// nl:  **'Alle bieren'**
+  ///
+  /// en:  **'All beers'**
+  String get beerOverviewTitle => _t(LocalizationKeys.beerOverviewTitle);
+
+  /// Translations:
+  ///
+  /// nl:  **'Lijst is leeg.'**
+  ///
+  /// en:  **'List is empty.'**
+  String get beerOverviewEmpty => _t(LocalizationKeys.beerOverviewEmpty);
+
+  /// Translations:
+  ///
+  /// nl:  **'Sorteren op'**
+  ///
+  /// en:  **'Sort by'**
+  String get beerOverviewSort => _t(LocalizationKeys.beerOverviewSort);
+
+  /// Translations:
+  ///
+  /// nl:  **'Naam'**
+  ///
+  /// en:  **'Name'**
+  String get beerOverviewSortName => _t(LocalizationKeys.beerOverviewSortName);
+
+  /// Translations:
+  ///
+  /// nl:  **'Score (stijgend)'**
+  ///
+  /// en:  **'Rating (asc.)'**
+  String get beerOverviewSortRatingUp => _t(LocalizationKeys.beerOverviewSortRatingUp);
+
+  /// Translations:
+  ///
+  /// nl:  **'Score (dalend)'**
+  ///
+  /// en:  **'Rating (desc.)'**
+  String get beerOverviewSortRatingDown => _t(LocalizationKeys.beerOverviewSortRatingDown);
+
+  /// Translations:
+  ///
+  /// nl:  **'Groeperen op'**
+  ///
+  /// en:  **'Group by'**
+  String get beerOverviewGroup => _t(LocalizationKeys.beerOverviewGroup);
+
+  /// Translations:
+  ///
+  /// nl:  **'Geen groepering'**
+  ///
+  /// en:  **'None'**
+  String get beerOverviewGroupNone => _t(LocalizationKeys.beerOverviewGroupNone);
+
+  /// Translations:
+  ///
+  /// nl:  **'Brouwerij'**
+  ///
+  /// en:  **'Brewery'**
+  String get beerOverviewGroupBrewery => _t(LocalizationKeys.beerOverviewGroupBrewery);
+
+  /// Translations:
+  ///
+  /// nl:  **'Score'**
+  ///
+  /// en:  **'Rating'**
+  String get beerOverviewGroupRating => _t(LocalizationKeys.beerOverviewGroupRating);
+
+  /// Translations:
+  ///
+  /// nl:  **'Wissel'**
+  ///
+  /// en:  **'Toggle'**
+  String get beerOverviewViewToggle => _t(LocalizationKeys.beerOverviewViewToggle);
+
+  /// Translations:
+  ///
+  /// nl:  **'Bier'**
+  ///
+  /// en:  **'Beer'**
+  String get homeBottomNavbarBeer => _t(LocalizationKeys.homeBottomNavbarBeer);
+
+  /// Translations:
+  ///
+  /// nl:  **'Email'**
+  ///
+  /// en:  **'Email'**
+  String get loginEmail => _t(LocalizationKeys.loginEmail);
+
+  /// Translations:
+  ///
+  /// nl:  **'Wachtwoord'**
+  ///
+  /// en:  **'Password'**
+  String get loginPassword => _t(LocalizationKeys.loginPassword);
+
+  /// Translations:
+  ///
+  /// nl:  **'Inloggen'**
+  ///
+  /// en:  **'Login'**
+  String get loginConfirm => _t(LocalizationKeys.loginConfirm);
+
+  /// Translations:
+  ///
+  /// nl:  **'Invalide type voor key: '**
+  ///
+  /// en:  **'Invalid key type: '**
+  String get beerListKeyError => _t(LocalizationKeys.beerListKeyError);
+
+  /// Translations:
+  ///
+  /// nl:  **'Tap om een afbeelding te kiezen'**
+  ///
+  /// en:  **'Tap to upload an image'**
+  String get imagePickerHint => _t(LocalizationKeys.imagePickerHint);
 
   String getTranslation(String key, {List<dynamic>? args}) => _t(key, args: args ?? <dynamic>[]);
 

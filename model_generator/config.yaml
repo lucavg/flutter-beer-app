@@ -50,3 +50,10 @@ SortOption:
     nameAscending:
     ratingDescending:
     ratingAscending:
+GroupOption:
+  path: webservice/beer
+  type: enum
+  properties:
+    brewery:
+    rating:
+    none:

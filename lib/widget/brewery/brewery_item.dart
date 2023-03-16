@@ -31,7 +31,8 @@ class BreweryItem extends StatelessWidget {
                   children: [
                     Text(
                       brewery!.name,
-                      style: theme.coreTextTheme.titleNormal,
+                      style: theme.coreTextTheme.titleSmall,
+                      textAlign: TextAlign.center,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
