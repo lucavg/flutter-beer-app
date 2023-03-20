@@ -15,7 +15,9 @@ import 'package:beer_app/widget/general/styled/beer_app_progress_indicator.dart'
 import 'package:beer_app/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
+import 'package:latlong2/latlong.dart';
 
 class BeerDetailScreen extends StatefulWidget {
   static const String routeName = RouteNames.beerDetailScreen;
@@ -64,6 +66,7 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                     ),
                   );
                 }
+
                 return Scrollbar(
                   child: Center(
                     child: ListView(
@@ -103,6 +106,36 @@ class BeerDetailScreenState extends State<BeerDetailScreen> {
                               ),
                               BreweryItem(brewery: brewery)
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: SizedBox(
+                            height: 360,
+                            width: 180,
+                            child: FlutterMap(
+                              mapController: viewModel.mapController,
+                              options: MapOptions(
+                                center: viewModel.latLng,
+                                zoom: 9.2,
+                                maxZoom: 22,
+                              ),
+                              children: [
+                                TileLayer(
+                                  urlTemplate:
+                                      'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
+                                  subdomains: const ['a', 'b', 'c'],
+                                  additionalOptions: const {
+                                    'style':
+                                        'https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=8f6cd8800b8d436c890dccf078f972a8',
+                                    'apiKey':
+                                        '8f6cd8800b8d436c890dccf078f972a8',
+                                  },
+                                  maxZoom: 22,
+                                  userAgentPackageName: 'com.example.map',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -2,9 +2,11 @@ import 'package:beer_app/model/webservice/beer/beer_with_brewery.dart';
 import 'package:beer_app/navigator/main_navigator.dart';
 import 'package:beer_app/repository/beer/beer_repository.dart';
 import 'package:beer_app/util/locale/localization_keys.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @injectable
@@ -12,6 +14,7 @@ class BeerDetailViewModel with ChangeNotifierEx {
   late final BeerWithBrewery _beerWithBrewery;
   final BeerRepository _beerRepository;
   final MainNavigator _navigator;
+  final MapController _mapController = MapController();
   final SharedPreferences _sharedPreferences;
 
   BeerDetailViewModel(
@@ -21,10 +24,9 @@ class BeerDetailViewModel with ChangeNotifierEx {
   );
 
   String? _errorKey;
-  bool _hasImage = false;
   bool _isEnlarged = false;
-  double _lat = 0.0;
-  double _lng = 0.0;
+
+  LatLng _latLng = LatLng(0.0, 0.0);
 
   bool _ratingUpdated = false;
   late int _currentRating;
@@ -36,11 +38,7 @@ class BeerDetailViewModel with ChangeNotifierEx {
 
   bool get isEnlarged => _isEnlarged;
 
-  bool get hasImage => _hasImage;
-
-  double get lat => _lat;
-
-  double get lng => _lng;
+  LatLng get latLng => _latLng;
 
   bool get ratingUpdated => _ratingUpdated;
 
@@ -48,33 +46,32 @@ class BeerDetailViewModel with ChangeNotifierEx {
 
   BeerWithBrewery get beerWithBrewery => _beerWithBrewery;
 
+  MapController get mapController => _mapController;
+
   Future<void> init(BeerWithBrewery beerWithBrewery) async {
     _beerWithBrewery = beerWithBrewery;
     try {
-      if (_beerWithBrewery.beer.imageUrl.isNotEmpty) {
-        _hasImage = true;
-      } else {
-        _hasImage = false;
-      }
-
       _currentRating = beerWithBrewery.beer.rating;
 
       final String address =
           "${_beerWithBrewery.brewery!.address}, ${_beerWithBrewery.brewery!.city}, ${_beerWithBrewery.brewery!.country}";
       final List<Location> locations = await locationFromAddress(address);
       final first = locations.first;
-      _lat = first.latitude;
-      _lng = first.longitude;
+      final double lat = first.latitude;
+      final double lng = first.longitude;
+      _latLng = LatLng(lat, lng);
+      mapController.move(_latLng, 15);
       _isLoading = true;
       _errorKey = null;
     } catch (e, stack) {
-      logger.error('failed to get brewery location', error: e, trace: stack);
+      logger.error('Failed to get brewery location', error: e, trace: stack);
       if (e is LocalizedError) {
         _errorKey = e.getLocalizedKey();
       } else {
         _errorKey = LocalizationKeys.errorGeneral;
       }
     } finally {
+      logger.error("${_latLng.longitude}");
       _isLoading = false;
       notifyListeners();
     }

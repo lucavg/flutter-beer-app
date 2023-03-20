@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ThemeColors {
   ThemeColors._();
 
-  static const primary = Color(0xFF002548);
+  static const primary = Color(0xFFECB20F);
   static const primaryDark = Color(0xFF001223);
-  static const accent = Color(0xFF009AC7);
-  static const accentDark = Color(0xFF0080A8);
+  static const accent = Color(0xFFCBB137);
+  static const accentDark = Color(0xFF968428);
   static const white = Color(0xFFFFFFFF);
   static const white20 = Color(0x33FFFFFF);
   static const white50 = Color(0x80FFFFFF);
